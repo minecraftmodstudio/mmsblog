@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog — Minecraft Mod Studio</title>
+  <meta name="description" content="Acompanhe as novidades, atualizações e guias do Minecraft Mod Studio." />
+  <link rel="icon" type="image/png" href="../mmslogosimbolodc.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --green:    #6ab84a;
+      --green-dk: #3a7a20;
+      --green-lt: #9de070;
+      --bg:       #111111;
+      --bg2:      #171717;
+      --bg3:      #1e1e1e;
+      --border:   #2a2a2a;
+      --text:     #e0e0e0;
+      --muted:    #606060;
+      --amber:    #c89040;
+      --blue:     #4a90d9;
+      --red:      #d94a4a;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; min-height: 100vh; }
+
+    /* BG GRID */
+    body::before { content: ''; position: fixed; inset: 0; background-image: linear-gradient(rgba(106,184,74,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(106,184,74,0.03) 1px, transparent 1px); background-size: 48px 48px; pointer-events: none; z-index: 0; }
+
+    /* NAV */
+    nav { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; height: 56px; background: rgba(17,17,17,0.92); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); }
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-logo img { width: 26px; height: 26px; }
+    .nav-logo-text { display: flex; flex-direction: column; line-height: 1.1; }
+    .nav-logo-main { font-weight: 700; font-size: 13px; color: var(--text); }
+    .nav-logo-sub { font-size: 10px; color: var(--green); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+    .nav-right { display: flex; align-items: center; gap: 16px; }
+    .nav-back { color: var(--muted); text-decoration: none; font-size: 12px; font-weight: 500; display: flex; align-items: center; gap: 6px; transition: color 0.2s; }
+    .nav-back:hover { color: var(--text); }
+    .lang-switcher { position: relative; }
+    .lang-btn { display: flex; align-items: center; gap: 6px; background: var(--bg3); border: 1px solid var(--border); color: var(--text); font-size: 12px; font-weight: 600; padding: 5px 10px; border-radius: 6px; cursor: pointer; transition: border-color 0.2s; }
+    .lang-btn:hover { border-color: #444; }
+    .lang-dropdown { display: none; position: absolute; top: calc(100% + 8px); right: 0; background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; min-width: 150px; box-shadow: 0 8px 32px rgba(0,0,0,0.5); z-index: 200; }
+    .lang-switcher.open .lang-dropdown { display: block; }
+    .lang-option { display: flex; align-items: center; gap: 10px; padding: 9px 14px; cursor: pointer; font-size: 12px; transition: background 0.15s; }
+    .lang-option:hover { background: rgba(255,255,255,0.05); }
+    .lang-option.active { color: var(--green); }
+
+    /* HERO */
+    .blog-hero { position: relative; z-index: 1; padding: 64px 40px 48px; max-width: 1100px; margin: 0 auto; }
+    .blog-hero-label { font-size: 11px; font-weight: 700; color: var(--green); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; font-family: 'JetBrains Mono', monospace; }
+    .blog-hero h1 { font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 900; letter-spacing: -1.5px; color: #fff; line-height: 1.05; margin-bottom: 14px; }
+    .blog-hero h1 em { font-style: normal; color: var(--green); }
+    .blog-hero p { font-size: 0.95rem; color: #666; max-width: 480px; }
+
+    /* FILTERS */
+    .filters-bar { position: relative; z-index: 1; padding: 0 40px 32px; max-width: 1100px; margin: 0 auto; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .search-wrap { position: relative; flex: 1; min-width: 220px; max-width: 360px; }
+    .search-wrap input { width: 100%; background: var(--bg2); border: 1px solid var(--border); color: var(--text); font-size: 13px; padding: 9px 14px 9px 36px; border-radius: 8px; outline: none; font-family: inherit; transition: border-color 0.2s; }
+    .search-wrap input:focus { border-color: var(--green); }
+    .search-wrap input::placeholder { color: var(--muted); }
+    .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 14px; pointer-events: none; }
+    .tags-row { display: flex; gap: 8px; flex-wrap: wrap; }
+    .tag-chip { background: var(--bg3); border: 1px solid var(--border); color: var(--muted); font-size: 11px; font-weight: 600; padding: 5px 12px; border-radius: 100px; cursor: pointer; transition: all 0.15s; letter-spacing: 0.3px; }
+    .tag-chip:hover { border-color: #444; color: var(--text); }
+    .tag-chip.active { background: rgba(106,184,74,0.12); border-color: rgba(106,184,74,0.4); color: var(--green); }
+    .results-count { font-size: 11px; color: var(--muted); margin-left: auto; font-family: 'JetBrains Mono', monospace; white-space: nowrap; }
+
+    /* GRID */
+    .posts-section { position: relative; z-index: 1; padding: 0 40px 80px; max-width: 1100px; margin: 0 auto; }
+    .posts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+
+    /* CARD */
+    .post-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; cursor: pointer; text-decoration: none; display: flex; flex-direction: column; transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s; }
+    .post-card:hover { border-color: #363636; transform: translateY(-3px); box-shadow: 0 16px 48px rgba(0,0,0,0.4); }
+    .card-banner { height: 160px; background: var(--bg3); overflow: hidden; position: relative; flex-shrink: 0; }
+    .card-banner img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
+    .post-card:hover .card-banner img { transform: scale(1.04); }
+    .card-banner-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+    .card-banner-placeholder .placeholder-bar { height: 4px; width: 100%; position: absolute; bottom: 0; }
+    .card-banner-placeholder .placeholder-bg { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 40px; opacity: 0.15; }
+    .card-body { padding: 22px 24px; flex: 1; display: flex; flex-direction: column; }
+    .card-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+    .card-tag { font-size: 10px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; padding: 3px 9px; border-radius: 100px; }
+    .card-tag.guide    { background: rgba(106,184,74,0.12); color: var(--green);  border: 1px solid rgba(106,184,74,0.25); }
+    .card-tag.update   { background: rgba(200,144,64,0.12); color: var(--amber);  border: 1px solid rgba(200,144,64,0.25); }
+    .card-tag.news     { background: rgba(74,144,217,0.12); color: var(--blue);   border: 1px solid rgba(74,144,217,0.25); }
+    .card-tag.devlog   { background: rgba(217,74,74,0.12);  color: var(--red);    border: 1px solid rgba(217,74,74,0.25); }
+    .card-tag.release  { background: rgba(106,184,74,0.2);  color: var(--green-lt); border: 1px solid rgba(106,184,74,0.4); }
+    .card-date { font-size: 10px; color: #444; font-family: 'JetBrains Mono', monospace; margin-left: auto; }
+    .card-title { font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 8px; line-height: 1.4; }
+    .card-desc { font-size: 0.84rem; color: #666; line-height: 1.65; flex: 1; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+    .card-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border); }
+    .card-author { display: flex; align-items: center; gap: 7px; }
+    .card-author-avatar { width: 20px; height: 20px; border-radius: 50%; background: var(--bg3); border: 1px solid var(--border); overflow: hidden; }
+    .card-author-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .card-author-name { font-size: 11px; color: var(--muted); }
+    .card-read { font-size: 11px; font-weight: 600; color: var(--green); display: flex; align-items: center; gap: 4px; transition: gap 0.2s; }
+    .post-card:hover .card-read { gap: 8px; }
+
+    /* FEATURED */
+    .post-card.featured { grid-column: 1 / -1; display: grid; grid-template-columns: 380px 1fr; }
+    .post-card.featured .card-banner { height: auto; min-height: 220px; }
+    .post-card.featured .card-title { font-size: 1.3rem; }
+    .post-card.featured .card-desc { -webkit-line-clamp: 4; }
+
+    /* LOADING / EMPTY */
+    .state-box { text-align: center; padding: 80px 20px; color: var(--muted); }
+    .state-box .state-icon { font-size: 40px; margin-bottom: 16px; opacity: 0.4; }
+    .state-box p { font-size: 14px; }
+    .skeleton { animation: shimmer 1.5s infinite; background: linear-gradient(90deg, var(--bg2) 25%, var(--bg3) 50%, var(--bg2) 75%); background-size: 200% 100%; border-radius: 6px; }
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+    .skel-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+    .skel-banner { height: 160px; }
+    .skel-body { padding: 22px 24px; }
+    .skel-line { height: 12px; margin-bottom: 10px; border-radius: 4px; }
+
+    /* FOOTER */
+    footer { position: relative; z-index: 1; border-top: 1px solid var(--border); padding: 28px 40px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+    .footer-logo { display: flex; align-items: center; gap: 8px; }
+    .footer-logo img { width: 18px; opacity: 0.5; }
+    .footer-logo span { font-size: 12px; color: #3a3a3a; font-weight: 600; }
+    footer p { font-size: 11px; color: #333; }
+    .footer-links { display: flex; gap: 20px; }
+    .footer-links a { font-size: 11px; color: #3a3a3a; text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--muted); }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .post-card { animation: fadeUp 0.5s ease both; }
+
+    @media (max-width: 768px) {
+      nav, .blog-hero, .filters-bar, .posts-section { padding-left: 20px; padding-right: 20px; }
+      .post-card.featured { grid-template-columns: 1fr; }
+      .post-card.featured .card-banner { height: 180px; }
+      footer { flex-direction: column; align-items: flex-start; padding: 24px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="../index.html">
+    <img src="../mmslogosimbolodc.png" alt="MMS" />
+    <div class="nav-logo-text">
+      <span class="nav-logo-main">Minecraft Mod Studio</span>
+      <span class="nav-logo-sub">Blog</span>
+    </div>
+  </a>
+  <div class="nav-right">
+    <a class="nav-back" href="../index.html">← <span data-i18n="nav.back">Voltar ao site</span></a>
+    <div class="lang-switcher" id="langSwitcher">
+      <button class="lang-btn" onclick="toggleLang()">
+        <span id="currentFlag">🇧🇷</span>
+        <span id="currentLangLabel">PT</span>
+        <span style="font-size:10px;color:var(--muted)">▾</span>
+      </button>
+      <div class="lang-dropdown">
+        <div class="lang-option active" onclick="setLang('pt')">🇧🇷 &nbsp;Português</div>
+        <div class="lang-option" onclick="setLang('en')">🇺🇸 &nbsp;English</div>
+        <div class="lang-option" onclick="setLang('es')">🇪🇸 &nbsp;Español</div>
+        <div class="lang-option" onclick="setLang('fr')">🇫🇷 &nbsp;Français</div>
+        <div class="lang-option" onclick="setLang('de')">🇩🇪 &nbsp;Deutsch</div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="blog-hero">
+  <div class="blog-hero-label">// blog</div>
+  <h1 data-i18n-html="hero.title">Novidades &<br/><em>Atualizações</em></h1>
+  <p data-i18n="hero.desc">Acompanhe o progresso do desenvolvimento, guias, devlogs e anúncios do Minecraft Mod Studio.</p>
+</div>
+
+<div class="filters-bar">
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="searchInput" placeholder="Pesquisar posts..." data-i18n-placeholder="search.placeholder" oninput="filterPosts()" />
+  </div>
+  <div class="tags-row" id="tagsRow">
+    <span class="tag-chip active" data-tag="all" onclick="selectTag(this,'all')" data-i18n="tag.all">Todos</span>
+    <span class="tag-chip" data-tag="update" onclick="selectTag(this,'update')">Update</span>
+    <span class="tag-chip" data-tag="guide" onclick="selectTag(this,'guide')" data-i18n="tag.guide">Guia</span>
+    <span class="tag-chip" data-tag="devlog" onclick="selectTag(this,'devlog')">Devlog</span>
+    <span class="tag-chip" data-tag="news" onclick="selectTag(this,'news')" data-i18n="tag.news">Notícia</span>
+    <span class="tag-chip" data-tag="release" onclick="selectTag(this,'release')">Release</span>
+  </div>
+  <span class="results-count" id="resultsCount"></span>
+</div>
+
+<div class="posts-section">
+  <div class="posts-grid" id="postsGrid">
+    <!-- Skeletons enquanto carrega -->
+    <div class="skel-card featured">
+      <div class="skel-banner skeleton"></div>
+      <div class="skel-body">
+        <div class="skel-line skeleton" style="width:30%;height:10px;margin-bottom:14px"></div>
+        <div class="skel-line skeleton" style="width:80%;height:18px"></div>
+        <div class="skel-line skeleton" style="width:60%;height:18px"></div>
+        <div class="skel-line skeleton" style="width:90%;height:12px;margin-top:12px"></div>
+        <div class="skel-line skeleton" style="width:75%;height:12px"></div>
+      </div>
+    </div>
+    <div class="skel-card"><div class="skel-banner skeleton"></div><div class="skel-body"><div class="skel-line skeleton" style="width:40%"></div><div class="skel-line skeleton" style="width:80%;height:16px"></div><div class="skel-line skeleton" style="width:90%"></div><div class="skel-line skeleton" style="width:65%"></div></div></div>
+    <div class="skel-card"><div class="skel-banner skeleton"></div><div class="skel-body"><div class="skel-line skeleton" style="width:35%"></div><div class="skel-line skeleton" style="width:75%;height:16px"></div><div class="skel-line skeleton" style="width:85%"></div><div class="skel-line skeleton" style="width:60%"></div></div></div>
+  </div>
+  <div id="emptyState" class="state-box" style="display:none">
+    <div class="state-icon">📭</div>
+    <p id="emptyMsg" data-i18n="empty.msg">Nenhum post encontrado.</p>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">
+    <img src="../mmslogosimbolodc.png" alt="Logo" />
+    <span>Minecraft Mod Studio</span>
+  </div>
+  <p data-i18n="footer.copy">Não afiliado à Mojang/Microsoft</p>
+  <div class="footer-links">
+    <a href="../index.html" data-i18n="footer.home">Site Principal</a>
+    <a href="admin.html" data-i18n="footer.admin">Admin</a>
+  </div>
+</footer>
+
+<script>
+// ─── CONFIG ───────────────────────────────────────────────────────────────────
+// CONFIGURE AQUI: substitua pelo seu usuário e repositório do GitHub
+const GITHUB_USER = 'minecraftmodstudio';
+const GITHUB_REPO = 'mmsblog'; // repositório separado do blog
+const POSTS_PATH  = 'posts';   // pasta dentro do repo onde ficam os .md
+const GITHUB_API  = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${POSTS_PATH}`;
+
+// ─── i18n ─────────────────────────────────────────────────────────────────────
+const i18n = {
+  pt: {
+    'nav.back':'Voltar ao site',
+    'hero.title':'Novidades &<br/><em>Atualizações</em>',
+    'hero.desc':'Acompanhe o progresso do desenvolvimento, guias, devlogs e anúncios do Minecraft Mod Studio.',
+    'search.placeholder':'Pesquisar posts...',
+    'tag.all':'Todos','tag.guide':'Guia','tag.news':'Notícia',
+    'empty.msg':'Nenhum post encontrado.',
+    'read.more':'Ler mais →',
+    'footer.copy':'Não afiliado à Mojang/Microsoft',
+    'footer.home':'Site Principal','footer.admin':'Admin',
+    'err.load':'Não foi possível carregar os posts. Verifique as configurações do repositório.',
+  },
+  en: {
+    'nav.back':'Back to site',
+    'hero.title':'Updates &<br/><em>News</em>',
+    'hero.desc':'Follow the development progress, guides, devlogs and announcements of Minecraft Mod Studio.',
+    'search.placeholder':'Search posts...',
+    'tag.all':'All','tag.guide':'Guide','tag.news':'News',
+    'empty.msg':'No posts found.',
+    'read.more':'Read more →',
+    'footer.copy':'Not affiliated with Mojang/Microsoft',
+    'footer.home':'Main Site','footer.admin':'Admin',
+    'err.load':'Could not load posts. Check the repository settings.',
+  },
+  es: {
+    'nav.back':'Volver al sitio',
+    'hero.title':'Novedades &<br/><em>Actualizaciones</em>',
+    'hero.desc':'Sigue el progreso del desarrollo, guías, devlogs y anuncios de Minecraft Mod Studio.',
+    'search.placeholder':'Buscar posts...',
+    'tag.all':'Todos','tag.guide':'Guía','tag.news':'Noticia',
+    'empty.msg':'No se encontraron posts.',
+    'read.more':'Leer más →',
+    'footer.copy':'No afiliado a Mojang/Microsoft',
+    'footer.home':'Sitio Principal','footer.admin':'Admin',
+    'err.load':'No se pudieron cargar los posts. Verifica la configuración del repositorio.',
+  },
+  fr: {
+    'nav.back':'Retour au site',
+    'hero.title':'Actualités &<br/><em>Mises à jour</em>',
+    'hero.desc':"Suivez les progrès du développement, guides, devlogs et annonces de Minecraft Mod Studio.",
+    'search.placeholder':'Rechercher des posts...',
+    'tag.all':'Tous','tag.guide':'Guide','tag.news':'Actualité',
+    'empty.msg':'Aucun post trouvé.',
+    'read.more':'Lire la suite →',
+    'footer.copy':'Non affilié à Mojang/Microsoft',
+    'footer.home':'Site Principal','footer.admin':'Admin',
+    'err.load':"Impossible de charger les posts. Vérifiez la configuration du dépôt.",
+  },
+  de: {
+    'nav.back':'Zurück zur Website',
+    'hero.title':'Neuigkeiten &<br/><em>Updates</em>',
+    'hero.desc':'Verfolge den Entwicklungsfortschritt, Guides, Devlogs und Ankündigungen von Minecraft Mod Studio.',
+    'search.placeholder':'Posts suchen...',
+    'tag.all':'Alle','tag.guide':'Guide','tag.news':'Neuigkeit',
+    'empty.msg':'Keine Posts gefunden.',
+    'read.more':'Mehr lesen →',
+    'footer.copy':'Nicht mit Mojang/Microsoft verbunden',
+    'footer.home':'Hauptseite','footer.admin':'Admin',
+    'err.load':'Posts konnten nicht geladen werden. Überprüfe die Repository-Einstellungen.',
+  }
+};
+const langMeta = {
+  pt:{flag:'🇧🇷',label:'PT',html:'pt-BR'},
+  en:{flag:'🇺🇸',label:'EN',html:'en'},
+  es:{flag:'🇪🇸',label:'ES',html:'es'},
+  fr:{flag:'🇫🇷',label:'FR',html:'fr'},
+  de:{flag:'🇩🇪',label:'DE',html:'de'},
+};
+let currentLang = 'pt';
+function setLang(lang) {
+  currentLang = lang;
+  const t = i18n[lang]; const m = langMeta[lang];
+  document.documentElement.lang = m.html;
+  document.getElementById('currentFlag').textContent = m.flag;
+  document.getElementById('currentLangLabel').textContent = m.label;
+  document.querySelectorAll('[data-i18n]').forEach(el => { const k=el.getAttribute('data-i18n'); if(t[k]) el.textContent=t[k]; });
+  document.querySelectorAll('[data-i18n-html]').forEach(el => { const k=el.getAttribute('data-i18n-html'); if(t[k]) el.innerHTML=t[k]; });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => { const k=el.getAttribute('data-i18n-placeholder'); if(t[k]) el.placeholder=t[k]; });
+  document.querySelectorAll('.lang-option').forEach((el,i) => { const langs=['pt','en','es','fr','de']; el.classList.toggle('active', langs[i]===lang); });
+  closeLang();
+  renderPosts();
+}
+function toggleLang() { document.getElementById('langSwitcher').classList.toggle('open'); }
+function closeLang()  { document.getElementById('langSwitcher').classList.remove('open'); }
+document.addEventListener('click', e => { if(!document.getElementById('langSwitcher').contains(e.target)) closeLang(); });
+
+// ─── TAG COLORS ───────────────────────────────────────────────────────────────
+const TAG_META = {
+  update:  { label:{pt:'Update',en:'Update',es:'Update',fr:'Update',de:'Update'},         emoji:'🚀' },
+  guide:   { label:{pt:'Guia',en:'Guide',es:'Guía',fr:'Guide',de:'Guide'},                emoji:'📖' },
+  devlog:  { label:{pt:'Devlog',en:'Devlog',es:'Devlog',fr:'Devlog',de:'Devlog'},         emoji:'🛠' },
+  news:    { label:{pt:'Notícia',en:'News',es:'Noticia',fr:'Actualité',de:'Neuigkeit'},   emoji:'📢' },
+  release: { label:{pt:'Release',en:'Release',es:'Release',fr:'Release',de:'Release'},    emoji:'🎉' },
+};
+
+// ─── DATA ─────────────────────────────────────────────────────────────────────
+let allPosts = [];
+let activeTag = 'all';
+
+// Parse frontmatter from markdown
+function parseFrontmatter(raw) {
+  const fm = {};
+  const match = raw.match(/^---\n([\s\S]*?)\n---/);
+  if (match) {
+    match[1].split('\n').forEach(line => {
+      const [key, ...val] = line.split(':');
+      if (key) fm[key.trim()] = val.join(':').trim().replace(/^["']|["']$/g, '');
+    });
+    fm._body = raw.slice(match[0].length).trim();
+  } else {
+    fm._body = raw;
+  }
+  return fm;
+}
+
+async function loadPosts() {
+  try {
+    const res = await fetch(GITHUB_API);
+    if (!res.ok) throw new Error('API error');
+    const files = await res.json();
+    const mdFiles = files.filter(f => f.name.endsWith('.md')).reverse();
+
+    const posts = await Promise.all(mdFiles.map(async f => {
+      const r = await fetch(f.download_url);
+      const raw = await r.text();
+      const fm = parseFrontmatter(raw);
+      return {
+        slug:    f.name.replace('.md',''),
+        title:   fm.title   || f.name.replace('.md',''),
+        date:    fm.date    || '',
+        tag:     fm.tag     || 'news',
+        author:  fm.author  || 'MMS Team',
+        avatar:  fm.avatar  || '',
+        banner:  fm.banner  || '',
+        excerpt: fm.excerpt || fm._body.replace(/[#*`\[\]]/g,'').slice(0,160)+'…',
+        featured: fm.featured === 'true',
+        _body:   fm._body,
+      };
+    }));
+
+    // Sort: featured first, then by date desc
+    allPosts = posts.sort((a,b) => {
+      if(a.featured && !b.featured) return -1;
+      if(!a.featured && b.featured) return 1;
+      return new Date(b.date) - new Date(a.date);
+    });
+    renderPosts();
+  } catch(e) {
+    console.error(e);
+    document.getElementById('postsGrid').innerHTML = '';
+    document.getElementById('emptyState').style.display = 'block';
+    document.getElementById('emptyMsg').textContent = i18n[currentLang]['err.load'];
+  }
+}
+
+function formatDate(dateStr) {
+  if (!dateStr) return '';
+  const d = new Date(dateStr);
+  const locales = {pt:'pt-BR',en:'en-US',es:'es-ES',fr:'fr-FR',de:'de-DE'};
+  return d.toLocaleDateString(locales[currentLang]||'pt-BR', {day:'numeric',month:'short',year:'numeric'});
+}
+
+function renderPosts() {
+  const query = (document.getElementById('searchInput')?.value||'').toLowerCase();
+  const grid = document.getElementById('postsGrid');
+  const empty = document.getElementById('emptyState');
+
+  const filtered = allPosts.filter(p => {
+    const matchTag = activeTag === 'all' || p.tag === activeTag;
+    const matchQ = !query || p.title.toLowerCase().includes(query) || p.excerpt.toLowerCase().includes(query);
+    return matchTag && matchQ;
+  });
+
+  document.getElementById('resultsCount').textContent = filtered.length > 0
+    ? `${filtered.length} post${filtered.length !== 1 ? 's' : ''}`
+    : '';
+
+  if (!filtered.length) {
+    grid.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+
+  const tm = TAG_META[activeTag] || {};
+  const readMore = i18n[currentLang]['read.more'];
+
+  grid.innerHTML = filtered.map((p, i) => {
+    const tag = TAG_META[p.tag] || TAG_META.news;
+    const tagLabel = tag.label[currentLang] || tag.label.pt;
+    const bannerHtml = p.banner
+      ? `<img src="${p.banner}" alt="${p.title}" loading="lazy" />`
+      : `<div class="placeholder-bg">${tag.emoji}</div><div class="placeholder-bar" style="background:linear-gradient(90deg,var(--green),var(--green-lt))"></div>`;
+    const avatarHtml = p.avatar
+      ? `<img src="${p.avatar}" alt="${p.author}" />`
+      : `<div style="width:100%;height:100%;background:var(--bg3);display:grid;place-items:center;font-size:10px">👤</div>`;
+
+    return `<a class="post-card${p.featured && i===0 ? ' featured':''}" href="post.html?slug=${p.slug}" style="animation-delay:${i*0.07}s">
+      <div class="card-banner">${bannerHtml}</div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="card-tag ${p.tag}">${tag.emoji} ${tagLabel}</span>
+          <span class="card-date">${formatDate(p.date)}</span>
+        </div>
+        <div class="card-title">${p.title}</div>
+        <div class="card-desc">${p.excerpt}</div>
+        <div class="card-footer">
+          <div class="card-author">
+            <div class="card-author-avatar">${avatarHtml}</div>
+            <span class="card-author-name">${p.author}</span>
+          </div>
+          <span class="card-read">${readMore}</span>
+        </div>
+      </div>
+    </a>`;
+  }).join('');
+}
+
+function filterPosts() { renderPosts(); }
+
+function selectTag(el, tag) {
+  activeTag = tag;
+  document.querySelectorAll('.tag-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  renderPosts();
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+const bl = navigator.language.slice(0,2);
+if (['en','es','fr','de'].includes(bl)) { currentLang = bl; setLang(bl); }
+loadPosts();
+</script>
+</body>
+</html>
