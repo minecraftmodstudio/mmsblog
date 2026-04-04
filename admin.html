@@ -1,169 +1,182 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin — MMS Blog</title>
-  <link rel="icon" type="image/png" href="../mmslogosimbolodc.png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      --green:    #6ab84a;
-      --green-dk: #3a7a20;
-      --green-lt: #9de070;
-      --bg:       #0d0d0d;
-      --bg2:      #141414;
-      --bg3:      #1a1a1a;
-      --border:   #252525;
-      --text:     #e0e0e0;
-      --muted:    #555;
-      --amber:    #c89040;
-      --red:      #d94a4a;
-      --blue:     #4a90d9;
-    }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Admin — MMS Blog</title>
+<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/minecraftmodstudio/mmsblog/main/mmslogosimbolodc.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --green: #6ab84a;
+  --green-dk: #3a7a20;
+  --green-lt: #9de070;
+  --bg: #0d0d0d;
+  --bg2: #141414;
+  --bg3: #1a1a1a;
+  --border: #252525;
+  --text: #e0e0e0;
+  --muted: #555;
+  --amber: #c89040;
+  --red: #d94a4a;
+  --blue: #4a90d9;
+}
 
-    /* ── SCREENS ─────────────────────────────────────── */
-    .screen { display: none; }
-    .screen.active { display: flex; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; }
 
-    /* ── LOGIN SCREEN ────────────────────────────────── */
-    #loginScreen { min-height: 100vh; align-items: center; justify-content: center; flex-direction: column; gap: 0; position: relative; overflow: hidden; }
-    #loginScreen::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(106,184,74,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(106,184,74,0.04) 1px, transparent 1px); background-size: 40px 40px; }
-    #loginScreen::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 50% at 50% 40%, rgba(106,184,74,0.08) 0%, transparent 70%); pointer-events: none; }
-    .login-card { position: relative; z-index: 1; background: var(--bg2); border: 1px solid var(--border); border-radius: 18px; padding: 48px 44px; max-width: 400px; width: 90%; text-align: center; animation: fadeUp 0.5s ease both; }
-    .login-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--green), transparent); border-radius: 18px 18px 0 0; }
-    .login-logo { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 28px; }
-    .login-logo img { width: 36px; height: 36px; }
-    .login-logo-text { text-align: left; }
-    .login-logo-main { font-weight: 800; font-size: 15px; color: #fff; }
-    .login-logo-sub { font-size: 10px; color: var(--green); font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
-    .login-card h2 { font-size: 1.3rem; font-weight: 800; color: #fff; margin-bottom: 8px; }
-    .login-card p { font-size: 13px; color: var(--muted); margin-bottom: 28px; line-height: 1.6; }
-    .btn-github { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; background: #fff; color: #111; font-weight: 700; font-size: 14px; padding: 13px 24px; border-radius: 10px; border: none; cursor: pointer; transition: background 0.2s, transform 0.15s; text-decoration: none; }
-    .btn-github:hover { background: #eee; transform: translateY(-1px); }
-    .btn-github svg { width: 20px; height: 20px; fill: #111; flex-shrink: 0; }
-    .login-note { margin-top: 18px; font-size: 11px; color: #333; line-height: 1.6; }
-    .login-note a { color: var(--muted); }
+/* ── SCREENS ─────────────────────────────────────── */
+.screen { display: none; }
+.screen.active { display: flex; }
 
-    /* ── ADMIN LAYOUT ────────────────────────────────── */
-    #adminScreen { flex-direction: column; min-height: 100vh; }
-    .admin-nav { display: flex; align-items: center; justify-content: space-between; padding: 0 28px; height: 54px; background: var(--bg2); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 50; flex-shrink: 0; }
-    .admin-nav-logo { display: flex; align-items: center; gap: 9px; }
-    .admin-nav-logo img { width: 24px; }
-    .admin-nav-logo span { font-weight: 700; font-size: 13px; color: var(--text); }
-    .admin-nav-badge { font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; background: rgba(106,184,74,0.15); border: 1px solid rgba(106,184,74,0.3); color: var(--green); padding: 2px 8px; border-radius: 100px; margin-left: 4px; }
-    .admin-nav-right { display: flex; align-items: center; gap: 12px; }
-    .admin-user { display: flex; align-items: center; gap: 8px; }
-    .admin-user-avatar { width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--border); overflow: hidden; }
-    .admin-user-avatar img { width: 100%; height: 100%; object-fit: cover; }
-    .admin-user-name { font-size: 12px; color: var(--muted); font-weight: 500; }
-    .btn-logout { font-size: 11px; color: var(--muted); background: none; border: 1px solid var(--border); padding: 5px 12px; border-radius: 6px; cursor: pointer; transition: all 0.15s; font-family: inherit; }
-    .btn-logout:hover { border-color: var(--red); color: var(--red); }
+/* ── LOGIN SCREEN ────────────────────────────────── */
+#loginScreen { min-height: 100vh; align-items: center; justify-content: center; flex-direction: column; gap: 0; position: relative; overflow: hidden; }
+#loginScreen::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(106,184,74,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(106,184,74,0.04) 1px, transparent 1px); background-size: 40px 40px; }
+#loginScreen::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 50% at 50% 40%, rgba(106,184,74,0.08) 0%, transparent 70%); pointer-events: none; }
 
-    .admin-body { display: grid; grid-template-columns: 240px 1fr; flex: 1; }
-    .admin-sidebar { background: var(--bg2); border-right: 1px solid var(--border); padding: 20px 0; }
-    .sidebar-section { padding: 0 16px; margin-bottom: 24px; }
-    .sidebar-label { font-size: 9px; font-weight: 700; color: #333; letter-spacing: 1.5px; text-transform: uppercase; padding: 0 8px; margin-bottom: 6px; font-family: 'JetBrains Mono', monospace; }
-    .sidebar-btn { display: flex; align-items: center; gap: 9px; width: 100%; padding: 9px 12px; border-radius: 8px; border: none; background: none; color: var(--muted); font-size: 13px; font-family: inherit; cursor: pointer; transition: background 0.15s, color 0.15s; text-align: left; }
-    .sidebar-btn:hover { background: rgba(255,255,255,0.04); color: var(--text); }
-    .sidebar-btn.active { background: rgba(106,184,74,0.1); color: var(--green); }
-    .sidebar-btn span { font-size: 15px; flex-shrink: 0; }
-    .sidebar-divider { height: 1px; background: var(--border); margin: 8px 16px; }
-    .sidebar-stat { padding: 8px 12px; font-size: 12px; color: #333; font-family: 'JetBrains Mono', monospace; }
-    .sidebar-stat strong { color: var(--green); }
+.login-card { position: relative; z-index: 1; background: var(--bg2); border: 1px solid var(--border); border-radius: 18px; padding: 48px 44px; max-width: 400px; width: 90%; text-align: center; animation: fadeUp 0.5s ease both; }
+.login-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--green), transparent); border-radius: 18px 18px 0 0; }
 
-    .admin-main { padding: 28px 32px; overflow-y: auto; }
+.login-logo { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 28px; }
+.login-logo img { width: 52px; height: 52px; object-fit: contain; }
+.login-logo-text { text-align: left; }
+.login-logo-main { font-weight: 800; font-size: 16px; color: #fff; }
+.login-logo-sub { font-size: 10px; color: var(--green); font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
 
-    /* ── VIEWS ───────────────────────────────────────── */
-    .view { display: none; }
-    .view.active { display: block; }
+.login-card h2 { font-size: 1.3rem; font-weight: 800; color: #fff; margin-bottom: 8px; }
+.login-card > p { font-size: 13px; color: var(--muted); margin-bottom: 28px; line-height: 1.6; }
 
-    /* Posts List */
-    .view-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
-    .view-title { font-size: 1.2rem; font-weight: 800; color: #fff; }
-    .btn-primary { display: inline-flex; align-items: center; gap: 7px; background: var(--green); color: #0a1a04; font-weight: 700; font-size: 13px; padding: 9px 18px; border-radius: 8px; border: none; cursor: pointer; transition: background 0.2s, transform 0.15s; font-family: inherit; }
-    .btn-primary:hover { background: var(--green-lt); transform: translateY(-1px); }
-    .posts-table { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
-    .table-row { display: grid; grid-template-columns: 1fr 120px 100px 90px; align-items: center; padding: 14px 20px; border-bottom: 1px solid var(--border); transition: background 0.15s; }
-    .table-row:last-child { border-bottom: none; }
-    .table-row:hover { background: rgba(255,255,255,0.02); }
-    .table-head { font-size: 10px; font-weight: 700; color: #333; letter-spacing: 1px; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; }
-    .table-head:hover { background: transparent; }
-    .post-row-title { font-size: 13px; font-weight: 600; color: var(--text); }
-    .post-row-slug  { font-size: 11px; color: var(--muted); font-family: 'JetBrains Mono', monospace; margin-top: 2px; }
-    .post-row-date  { font-size: 11px; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
-    .tag-pill { font-size: 9px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; padding: 3px 8px; border-radius: 100px; }
-    .tag-pill.update  { background: rgba(200,144,64,0.15); color: var(--amber);  }
-    .tag-pill.guide   { background: rgba(106,184,74,0.15); color: var(--green);  }
-    .tag-pill.devlog  { background: rgba(217,74,74,0.15);  color: var(--red);    }
-    .tag-pill.news    { background: rgba(74,144,217,0.15); color: var(--blue);   }
-    .tag-pill.release { background: rgba(106,184,74,0.25); color: var(--green-lt); }
-    .row-actions { display: flex; gap: 6px; justify-content: flex-end; }
-    .btn-edit { font-size: 11px; color: var(--muted); background: none; border: 1px solid var(--border); padding: 4px 10px; border-radius: 5px; cursor: pointer; transition: all 0.15s; font-family: inherit; }
-    .btn-edit:hover { border-color: var(--green); color: var(--green); }
-    .btn-del  { font-size: 11px; color: var(--muted); background: none; border: 1px solid var(--border); padding: 4px 10px; border-radius: 5px; cursor: pointer; transition: all 0.15s; font-family: inherit; }
-    .btn-del:hover  { border-color: var(--red); color: var(--red); }
-    .empty-table { padding: 40px; text-align: center; color: var(--muted); font-size: 13px; }
+.pat-field { margin-bottom: 16px; text-align: left; }
+.pat-field label { display: block; font-size: 11px; font-weight: 700; color: #555; letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 7px; font-family: 'JetBrains Mono', monospace; }
+.pat-input-wrap { position: relative; }
+.pat-input { width: 100%; background: var(--bg3); border: 1px solid var(--border); color: var(--text); font-size: 13px; padding: 11px 42px 11px 14px; border-radius: 10px; outline: none; font-family: 'JetBrains Mono', monospace; transition: border-color 0.2s; }
+.pat-input:focus { border-color: var(--green); }
+.pat-input::placeholder { color: #333; }
+.pat-toggle { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--muted); font-size: 16px; line-height: 1; padding: 0; }
+.pat-toggle:hover { color: var(--text); }
 
-    /* Editor */
-    .editor-grid { display: grid; grid-template-columns: 1fr 280px; gap: 20px; align-items: start; }
-    .editor-field { margin-bottom: 16px; }
-    .editor-field label { display: block; font-size: 11px; font-weight: 700; color: #555; letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 7px; font-family: 'JetBrains Mono', monospace; }
-    .editor-input { width: 100%; background: var(--bg3); border: 1px solid var(--border); color: var(--text); font-size: 13px; padding: 10px 14px; border-radius: 8px; outline: none; font-family: inherit; transition: border-color 0.2s; }
-    .editor-input:focus { border-color: var(--green); }
-    .editor-input::placeholder { color: #333; }
-    .editor-select { width: 100%; background: var(--bg3); border: 1px solid var(--border); color: var(--text); font-size: 13px; padding: 10px 14px; border-radius: 8px; outline: none; font-family: inherit; cursor: pointer; appearance: none; transition: border-color 0.2s; }
-    .editor-select:focus { border-color: var(--green); }
-    .editor-textarea { width: 100%; background: var(--bg3); border: 1px solid var(--border); color: var(--text); font-size: 13px; padding: 14px; border-radius: 8px; outline: none; font-family: 'JetBrains Mono', monospace; line-height: 1.7; resize: vertical; min-height: 400px; transition: border-color 0.2s; }
-    .editor-textarea:focus { border-color: var(--green); }
-    .editor-sidebar-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 16px; }
-    .editor-sidebar-card h4 { font-size: 11px; font-weight: 700; color: #444; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 14px; font-family: 'JetBrains Mono', monospace; }
-    .preview-banner { width: 100%; height: 100px; border-radius: 8px; object-fit: cover; border: 1px solid var(--border); margin-top: 8px; display: none; }
-    .status-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
-    .status-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-    .status-label { font-size: 12px; color: var(--muted); }
-    .editor-actions { display: flex; gap: 10px; flex-direction: column; }
-    .btn-save { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background: var(--green); color: #0a1a04; font-weight: 700; font-size: 13px; padding: 11px; border-radius: 8px; border: none; cursor: pointer; transition: background 0.2s; font-family: inherit; }
-    .btn-save:hover { background: var(--green-lt); }
-    .btn-save:disabled { opacity: 0.5; cursor: not-allowed; }
-    .btn-cancel { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background: none; color: var(--muted); font-size: 12px; padding: 9px; border-radius: 8px; border: 1px solid var(--border); cursor: pointer; transition: all 0.15s; font-family: inherit; }
-    .btn-cancel:hover { border-color: #444; color: var(--text); }
-    .md-toolbar { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 8px; }
-    .md-btn { background: var(--bg3); border: 1px solid var(--border); color: var(--muted); font-size: 11px; font-weight: 600; padding: 4px 9px; border-radius: 5px; cursor: pointer; transition: all 0.15s; font-family: 'JetBrains Mono', monospace; }
-    .md-btn:hover { border-color: #444; color: var(--text); }
+.btn-pat-login { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; background: var(--green); color: #0a1a04; font-weight: 700; font-size: 14px; padding: 13px 24px; border-radius: 10px; border: none; cursor: pointer; transition: background 0.2s, transform 0.15s; font-family: inherit; }
+.btn-pat-login:hover { background: var(--green-lt); transform: translateY(-1px); }
 
-    /* Toast */
-    .toast { position: fixed; bottom: 24px; right: 24px; z-index: 999; padding: 12px 18px; border-radius: 10px; font-size: 13px; font-weight: 600; display: none; align-items: center; gap: 8px; animation: slideIn 0.3s ease; box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
-    .toast.show { display: flex; }
-    .toast.success { background: rgba(106,184,74,0.15); border: 1px solid rgba(106,184,74,0.3); color: var(--green); }
-    .toast.error   { background: rgba(217,74,74,0.15);  border: 1px solid rgba(217,74,74,0.3);  color: var(--red); }
-    .toast.info    { background: rgba(74,144,217,0.15); border: 1px solid rgba(74,144,217,0.3); color: var(--blue); }
+.login-note { margin-top: 16px; font-size: 11px; color: #333; line-height: 1.6; }
+.login-note a { color: var(--muted); text-decoration: underline; }
 
-    /* Modal */
-    .modal-overlay { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); align-items: center; justify-content: center; }
-    .modal-overlay.open { display: flex; }
-    .modal { background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; padding: 32px; max-width: 420px; width: 90%; animation: fadeUp 0.25s ease; }
-    .modal h3 { font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: 10px; }
-    .modal p { font-size: 13px; color: var(--muted); margin-bottom: 24px; line-height: 1.6; }
-    .modal-actions { display: flex; gap: 10px; justify-content: flex-end; }
-    .btn-confirm-del { background: var(--red); color: #fff; font-weight: 700; font-size: 13px; padding: 9px 18px; border-radius: 8px; border: none; cursor: pointer; font-family: inherit; transition: opacity 0.15s; }
-    .btn-confirm-del:hover { opacity: 0.85; }
-    .btn-confirm-del:disabled { opacity: 0.5; cursor: not-allowed; }
+/* ── ADMIN LAYOUT ────────────────────────────────── */
+#adminScreen { flex-direction: column; min-height: 100vh; }
+.admin-nav { display: flex; align-items: center; justify-content: space-between; padding: 0 28px; height: 54px; background: var(--bg2); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 50; flex-shrink: 0; }
+.admin-nav-logo { display: flex; align-items: center; gap: 9px; }
+.admin-nav-logo img { width: 28px; height: 28px; object-fit: contain; }
+.admin-nav-logo span { font-weight: 700; font-size: 13px; color: var(--text); }
+.admin-nav-badge { font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; background: rgba(106,184,74,0.15); border: 1px solid rgba(106,184,74,0.3); color: var(--green); padding: 2px 8px; border-radius: 100px; margin-left: 4px; }
+.admin-nav-right { display: flex; align-items: center; gap: 12px; }
+.admin-user { display: flex; align-items: center; gap: 8px; }
+.admin-user-avatar { width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--border); overflow: hidden; }
+.admin-user-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.admin-user-name { font-size: 12px; color: var(--muted); font-weight: 500; }
+.btn-logout { font-size: 11px; color: var(--muted); background: none; border: 1px solid var(--border); padding: 5px 12px; border-radius: 6px; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+.btn-logout:hover { border-color: var(--red); color: var(--red); }
 
-    @keyframes fadeUp  { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+.admin-body { display: grid; grid-template-columns: 240px 1fr; flex: 1; }
+.admin-sidebar { background: var(--bg2); border-right: 1px solid var(--border); padding: 20px 0; }
+.sidebar-section { padding: 0 16px; margin-bottom: 24px; }
+.sidebar-label { font-size: 9px; font-weight: 700; color: #333; letter-spacing: 1.5px; text-transform: uppercase; padding: 0 8px; margin-bottom: 6px; font-family: 'JetBrains Mono', monospace; }
+.sidebar-btn { display: flex; align-items: center; gap: 9px; width: 100%; padding: 9px 12px; border-radius: 8px; border: none; background: none; color: var(--muted); font-size: 13px; font-family: inherit; cursor: pointer; transition: background 0.15s, color 0.15s; text-align: left; }
+.sidebar-btn:hover { background: rgba(255,255,255,0.04); color: var(--text); }
+.sidebar-btn.active { background: rgba(106,184,74,0.1); color: var(--green); }
+.sidebar-btn span { font-size: 15px; flex-shrink: 0; }
+.sidebar-divider { height: 1px; background: var(--border); margin: 8px 16px; }
+.sidebar-stat { padding: 8px 12px; font-size: 12px; color: #333; font-family: 'JetBrains Mono', monospace; }
+.sidebar-stat strong { color: var(--green); }
+.admin-main { padding: 28px 32px; overflow-y: auto; }
 
-    @media (max-width: 900px) {
-      .admin-body { grid-template-columns: 1fr; }
-      .admin-sidebar { display: none; }
-      .editor-grid { grid-template-columns: 1fr; }
-    }
-  </style>
+/* ── VIEWS ───────────────────────────────────────── */
+.view { display: none; }
+.view.active { display: block; }
+
+/* Posts List */
+.view-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+.view-title { font-size: 1.2rem; font-weight: 800; color: #fff; }
+.btn-primary { display: inline-flex; align-items: center; gap: 7px; background: var(--green); color: #0a1a04; font-weight: 700; font-size: 13px; padding: 9px 18px; border-radius: 8px; border: none; cursor: pointer; transition: background 0.2s, transform 0.15s; font-family: inherit; }
+.btn-primary:hover { background: var(--green-lt); transform: translateY(-1px); }
+.posts-table { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+.table-row { display: grid; grid-template-columns: 1fr 120px 100px 90px; align-items: center; padding: 14px 20px; border-bottom: 1px solid var(--border); transition: background 0.15s; }
+.table-row:last-child { border-bottom: none; }
+.table-row:hover { background: rgba(255,255,255,0.02); }
+.table-head { font-size: 10px; font-weight: 700; color: #333; letter-spacing: 1px; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; }
+.table-head:hover { background: transparent; }
+.post-row-title { font-size: 13px; font-weight: 600; color: var(--text); }
+.post-row-slug { font-size: 11px; color: var(--muted); font-family: 'JetBrains Mono', monospace; margin-top: 2px; }
+.post-row-date { font-size: 11px; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+.tag-pill { font-size: 9px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; padding: 3px 8px; border-radius: 100px; }
+.tag-pill.update { background: rgba(200,144,64,0.15); color: var(--amber); }
+.tag-pill.guide { background: rgba(106,184,74,0.15); color: var(--green); }
+.tag-pill.devlog { background: rgba(217,74,74,0.15); color: var(--red); }
+.tag-pill.news { background: rgba(74,144,217,0.15); color: var(--blue); }
+.tag-pill.release { background: rgba(106,184,74,0.25); color: var(--green-lt); }
+.row-actions { display: flex; gap: 6px; justify-content: flex-end; }
+.btn-edit { font-size: 11px; color: var(--muted); background: none; border: 1px solid var(--border); padding: 4px 10px; border-radius: 5px; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+.btn-edit:hover { border-color: var(--green); color: var(--green); }
+.btn-del { font-size: 11px; color: var(--muted); background: none; border: 1px solid var(--border); padding: 4px 10px; border-radius: 5px; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+.btn-del:hover { border-color: var(--red); color: var(--red); }
+.empty-table { padding: 40px; text-align: center; color: var(--muted); font-size: 13px; }
+
+/* Editor */
+.editor-grid { display: grid; grid-template-columns: 1fr 280px; gap: 20px; align-items: start; }
+.editor-field { margin-bottom: 16px; }
+.editor-field label { display: block; font-size: 11px; font-weight: 700; color: #555; letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 7px; font-family: 'JetBrains Mono', monospace; }
+.editor-input { width: 100%; background: var(--bg3); border: 1px solid var(--border); color: var(--text); font-size: 13px; padding: 10px 14px; border-radius: 8px; outline: none; font-family: inherit; transition: border-color 0.2s; }
+.editor-input:focus { border-color: var(--green); }
+.editor-input::placeholder { color: #333; }
+.editor-select { width: 100%; background: var(--bg3); border: 1px solid var(--border); color: var(--text); font-size: 13px; padding: 10px 14px; border-radius: 8px; outline: none; font-family: inherit; cursor: pointer; appearance: none; transition: border-color 0.2s; }
+.editor-select:focus { border-color: var(--green); }
+.editor-textarea { width: 100%; background: var(--bg3); border: 1px solid var(--border); color: var(--text); font-size: 13px; padding: 14px; border-radius: 8px; outline: none; font-family: 'JetBrains Mono', monospace; line-height: 1.7; resize: vertical; min-height: 400px; transition: border-color 0.2s; }
+.editor-textarea:focus { border-color: var(--green); }
+.editor-sidebar-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 16px; }
+.editor-sidebar-card h4 { font-size: 11px; font-weight: 700; color: #444; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 14px; font-family: 'JetBrains Mono', monospace; }
+.preview-banner { width: 100%; height: 100px; border-radius: 8px; object-fit: cover; border: 1px solid var(--border); margin-top: 8px; display: none; }
+.status-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.status-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.status-label { font-size: 12px; color: var(--muted); }
+.editor-actions { display: flex; gap: 10px; flex-direction: column; }
+.btn-save { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background: var(--green); color: #0a1a04; font-weight: 700; font-size: 13px; padding: 11px; border-radius: 8px; border: none; cursor: pointer; transition: background 0.2s; font-family: inherit; }
+.btn-save:hover { background: var(--green-lt); }
+.btn-save:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-cancel { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background: none; color: var(--muted); font-size: 12px; padding: 9px; border-radius: 8px; border: 1px solid var(--border); cursor: pointer; transition: all 0.15s; font-family: inherit; }
+.btn-cancel:hover { border-color: #444; color: var(--text); }
+.md-toolbar { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 8px; }
+.md-btn { background: var(--bg3); border: 1px solid var(--border); color: var(--muted); font-size: 11px; font-weight: 600; padding: 4px 9px; border-radius: 5px; cursor: pointer; transition: all 0.15s; font-family: 'JetBrains Mono', monospace; }
+.md-btn:hover { border-color: #444; color: var(--text); }
+
+/* Toast */
+.toast { position: fixed; bottom: 24px; right: 24px; z-index: 999; padding: 12px 18px; border-radius: 10px; font-size: 13px; font-weight: 600; display: none; align-items: center; gap: 8px; animation: slideIn 0.3s ease; box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+.toast.show { display: flex; }
+.toast.success { background: rgba(106,184,74,0.15); border: 1px solid rgba(106,184,74,0.3); color: var(--green); }
+.toast.error { background: rgba(217,74,74,0.15); border: 1px solid rgba(217,74,74,0.3); color: var(--red); }
+.toast.info { background: rgba(74,144,217,0.15); border: 1px solid rgba(74,144,217,0.3); color: var(--blue); }
+
+/* Modal */
+.modal-overlay { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); align-items: center; justify-content: center; }
+.modal-overlay.open { display: flex; }
+.modal { background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; padding: 32px; max-width: 420px; width: 90%; animation: fadeUp 0.25s ease; }
+.modal h3 { font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: 10px; }
+.modal p { font-size: 13px; color: var(--muted); margin-bottom: 24px; line-height: 1.6; }
+.modal-actions { display: flex; gap: 10px; justify-content: flex-end; }
+.btn-confirm-del { background: var(--red); color: #fff; font-weight: 700; font-size: 13px; padding: 9px 18px; border-radius: 8px; border: none; cursor: pointer; font-family: inherit; transition: opacity 0.15s; }
+.btn-confirm-del:hover { opacity: 0.85; }
+.btn-confirm-del:disabled { opacity: 0.5; cursor: not-allowed; }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+
+@media (max-width: 900px) {
+  .admin-body { grid-template-columns: 1fr; }
+  .admin-sidebar { display: none; }
+  .editor-grid { grid-template-columns: 1fr; }
+}
+</style>
 </head>
 <body>
 
@@ -171,19 +184,32 @@
 <div class="screen active" id="loginScreen">
   <div class="login-card">
     <div class="login-logo">
-      <img src="../mmslogosimbolodc.png" alt="MMS" />
+      <img src="https://raw.githubusercontent.com/minecraftmodstudio/mmsblog/main/mmslogosimbolodc.png" alt="MMS Logo" />
       <div class="login-logo-text">
         <div class="login-logo-main">Minecraft Mod Studio</div>
         <div class="login-logo-sub">Blog Admin</div>
       </div>
     </div>
+
     <h2>Área Restrita</h2>
-    <p>Faça login com sua conta GitHub para acessar o painel de administração do blog.</p>
-    <button class="btn-github" onclick="loginGitHub()">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.1.82-.26.82-.58v-2.04c-3.34.72-4.04-1.6-4.04-1.6-.55-1.38-1.33-1.75-1.33-1.75-1.08-.74.08-.72.08-.72 1.2.08 1.83 1.22 1.83 1.22 1.06 1.82 2.78 1.3 3.46.99.1-.77.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02 0 2.04.13 3 .4 2.28-1.55 3.3-1.23 3.3-1.23.66 1.65.24 2.87.12 3.17.77.84 1.24 1.91 1.24 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.22.69.83.57C20.56 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
-      Entrar com GitHub
+    <p>Cole seu Personal Access Token do GitHub para acessar o painel de administração.</p>
+
+    <div class="pat-field">
+      <label>Personal Access Token</label>
+      <div class="pat-input-wrap">
+        <input class="pat-input" id="patInput" type="password" placeholder="ghp_••••••••••••••••••••••••••••••••••••••" />
+        <button class="pat-toggle" onclick="togglePATVisibility()" title="Mostrar/ocultar token">👁</button>
+      </div>
+    </div>
+
+    <button class="btn-pat-login" onclick="loginWithPAT()">
+      🔑 Entrar
     </button>
-    <p class="login-note">Apenas colaboradores do repositório <strong>minecraftmodstudio/mmsblog</strong> têm acesso.</p>
+
+    <p class="login-note">
+      Apenas colaboradores do repositório <strong>minecraftmodstudio/mmsblog</strong> têm acesso.<br/>
+      <a href="https://github.com/settings/tokens/new?scopes=repo&description=mmsblog-admin" target="_blank">Gerar novo token com scope <code>repo</code> →</a>
+    </p>
   </div>
 </div>
 
@@ -191,7 +217,7 @@
 <div class="screen" id="adminScreen">
   <nav class="admin-nav">
     <div class="admin-nav-logo">
-      <img src="../mmslogosimbolodc.png" alt="MMS" />
+      <img src="https://raw.githubusercontent.com/minecraftmodstudio/mmsblog/main/mmslogosimbolodc.png" alt="MMS" />
       <span>MMS Blog</span>
       <span class="admin-nav-badge">Admin</span>
     </div>
@@ -203,6 +229,7 @@
       <button class="btn-logout" onclick="logout()">Sair</button>
     </div>
   </nav>
+
   <div class="admin-body">
     <aside class="admin-sidebar">
       <div class="sidebar-section">
@@ -222,6 +249,7 @@
         <button class="sidebar-btn" onclick="window.open('../index.html','_blank')"><span>🏠</span> Site Principal</button>
       </div>
     </aside>
+
     <main class="admin-main">
       <!-- POSTS LIST -->
       <div class="view active" id="viewPosts">
@@ -276,6 +304,7 @@
               <textarea class="editor-textarea" id="fBody" placeholder="Escreva aqui em Markdown…"></textarea>
             </div>
           </div>
+
           <div>
             <div class="editor-sidebar-card">
               <h4>Publicação</h4>
@@ -301,6 +330,7 @@
                 </select>
               </div>
             </div>
+
             <div class="editor-sidebar-card">
               <h4>Mídia</h4>
               <div class="editor-field">
@@ -313,6 +343,7 @@
                 <input class="editor-input" id="fAuthor" placeholder="MMS Team" />
               </div>
             </div>
+
             <div class="editor-sidebar-card">
               <h4>Status</h4>
               <div class="status-row"><div class="status-dot" style="background:var(--green)"></div><span class="status-label" id="statusLabel">Rascunho</span></div>
@@ -345,33 +376,27 @@
 
 <script>
 // ─── CONFIG ───────────────────────────────────────────────────────────────────
-const GITHUB_USER    = 'minecraftmodstudio';
-const GITHUB_REPO    = 'mmsblog';
-const POSTS_PATH     = 'posts';
-const GH_CLIENT_ID   = 'Ov23li2Xgq9NoyWZbS3b'; // ← substitua pelo seu GitHub OAuth App Client ID
-// Para autenticação OAuth sem backend, usaremos o fluxo de token via URL hash
-// Configure um GitHub OAuth App com callback URL = URL desta página admin.html
+const GITHUB_USER = 'minecraftmodstudio';
+const GITHUB_REPO = 'mmsblog';
+const POSTS_PATH  = 'posts';
 
 // ─── STATE ────────────────────────────────────────────────────────────────────
-let ghToken = null;
-let ghUser  = null;
-let allPosts = [];
-let editingSlug = null;
-let deletingSlug = null;
+let ghToken    = null;
+let ghUser     = null;
+let allPosts   = [];
+let editingSlug    = null;
+let deletingSlug   = null;
 let deletingFileSha = null;
 
 // ─── AUTH ─────────────────────────────────────────────────────────────────────
-function loginGitHub() {
-  const redirectUri = encodeURIComponent(window.location.href.split('?')[0]);
-  const scope = encodeURIComponent('repo');
-  window.location.href = `https://github.com/login/oauth/authorize?client_id=${GH_CLIENT_ID}&scope=${scope}&redirect_uri=${redirectUri}`;
+function togglePATVisibility() {
+  const input = document.getElementById('patInput');
+  input.type = input.type === 'password' ? 'text' : 'password';
 }
 
-// Token-based fallback: allow pasting a Personal Access Token (PAT)
-// (Used when no OAuth proxy is set up)
 function loginWithPAT() {
-  const pat = prompt('Cole seu GitHub Personal Access Token (com permissão "repo"):');
-  if (!pat) return;
+  const pat = document.getElementById('patInput').value.trim();
+  if (!pat) { showToast('Cole seu token no campo acima.', 'error'); return; }
   ghToken = pat;
   sessionStorage.setItem('mms_gh_token', pat);
   verifyAndEnter();
@@ -382,8 +407,10 @@ async function verifyAndEnter() {
     const res = await ghFetch('https://api.github.com/user');
     if (!res.ok) throw new Error('invalid token');
     ghUser = await res.json();
-    // Check if user is a collaborator
-    const colRes = await ghFetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/collaborators/${ghUser.login}`);
+
+    const colRes = await ghFetch(
+      `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/collaborators/${ghUser.login}`
+    );
     if (colRes.status !== 204) {
       showToast('Você não é colaborador deste repositório.', 'error');
       ghToken = null; sessionStorage.removeItem('mms_gh_token');
@@ -399,7 +426,7 @@ async function verifyAndEnter() {
 function enterAdmin() {
   document.getElementById('loginScreen').classList.remove('active');
   document.getElementById('adminScreen').classList.add('active');
-  document.getElementById('userName').textContent = ghUser.login;
+  document.getElementById('userName').textContent  = ghUser.login;
   document.getElementById('userAvatar').src = ghUser.avatar_url;
   loadPosts();
 }
@@ -409,6 +436,7 @@ function logout() {
   sessionStorage.removeItem('mms_gh_token');
   document.getElementById('adminScreen').classList.remove('active');
   document.getElementById('loginScreen').classList.add('active');
+  document.getElementById('patInput').value = '';
 }
 
 // ─── GH API HELPER ────────────────────────────────────────────────────────────
@@ -426,25 +454,28 @@ function ghFetch(url, opts={}) {
 // ─── LOAD POSTS ───────────────────────────────────────────────────────────────
 async function loadPosts() {
   try {
-    const res = await ghFetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${POSTS_PATH}`);
-    if (!res.ok) { 
+    const res = await ghFetch(
+      `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${POSTS_PATH}`
+    );
+    if (!res.ok) {
       if (res.status === 404) { allPosts = []; renderTable(); return; }
-      throw new Error(); 
+      throw new Error();
     }
     const files = await res.json();
     const mdFiles = files.filter(f => f.name.endsWith('.md'));
     allPosts = await Promise.all(mdFiles.map(async f => {
-      const r = await fetch(f.download_url);
+      const r   = await fetch(f.download_url);
       const raw = await r.text();
-      const fm = parseFrontmatter(raw);
+      const fm  = parseFrontmatter(raw);
       return { slug: f.name.replace('.md',''), sha: f.sha, title: fm.title||f.name, date: fm.date||'', tag: fm.tag||'news', raw };
     }));
     allPosts.sort((a,b) => new Date(b.date) - new Date(a.date));
     document.getElementById('statTotal').textContent = allPosts.length;
-    document.getElementById('statPub').textContent = allPosts.length;
+    document.getElementById('statPub').textContent   = allPosts.length;
     renderTable();
   } catch(e) {
-    document.getElementById('postsTableBody').innerHTML = '<div class="empty-table" style="color:var(--red)">Erro ao carregar posts. Verifique as configurações.</div>';
+    document.getElementById('postsTableBody').innerHTML =
+      '<div class="empty-table" style="color:var(--red)">Erro ao carregar posts. Verifique as configurações.</div>';
   }
 }
 
@@ -479,18 +510,19 @@ function showView(view, btn) {
     editingSlug = null;
   }
 }
+
 function capitalize(s) { return s.charAt(0).toUpperCase()+s.slice(1); }
 
 function clearEditor() {
-  document.getElementById('fTitle').value = '';
-  document.getElementById('fSlug').value = '';
-  document.getElementById('fExcerpt').value = '';
-  document.getElementById('fBody').value = '';
-  document.getElementById('fTag').value = 'update';
-  document.getElementById('fDate').value = new Date().toISOString().slice(0,10);
+  document.getElementById('fTitle').value    = '';
+  document.getElementById('fSlug').value     = '';
+  document.getElementById('fExcerpt').value  = '';
+  document.getElementById('fBody').value     = '';
+  document.getElementById('fTag').value      = 'update';
+  document.getElementById('fDate').value     = new Date().toISOString().slice(0,10);
   document.getElementById('fFeatured').value = 'false';
-  document.getElementById('fBanner').value = '';
-  document.getElementById('fAuthor').value = ghUser?.login || 'MMS Team';
+  document.getElementById('fBanner').value   = '';
+  document.getElementById('fAuthor').value   = ghUser?.login || 'MMS Team';
   document.getElementById('bannerPreview').style.display = 'none';
   document.getElementById('statusLabel').textContent = 'Rascunho';
 }
@@ -501,15 +533,15 @@ function editPost(slug) {
   const fm = parseFrontmatter(post.raw);
   editingSlug = slug;
   document.getElementById('editorTitle').textContent = 'Editar: ' + post.title;
-  document.getElementById('fTitle').value = fm.title||'';
-  document.getElementById('fSlug').value = slug;
-  document.getElementById('fExcerpt').value = fm.excerpt||'';
-  document.getElementById('fBody').value = fm._body||'';
-  document.getElementById('fTag').value = fm.tag||'update';
-  document.getElementById('fDate').value = fm.date||'';
+  document.getElementById('fTitle').value    = fm.title||'';
+  document.getElementById('fSlug').value     = slug;
+  document.getElementById('fExcerpt').value  = fm.excerpt||'';
+  document.getElementById('fBody').value     = fm._body||'';
+  document.getElementById('fTag').value      = fm.tag||'update';
+  document.getElementById('fDate').value     = fm.date||'';
   document.getElementById('fFeatured').value = fm.featured||'false';
-  document.getElementById('fBanner').value = fm.banner||'';
-  document.getElementById('fAuthor').value = fm.author||'MMS Team';
+  document.getElementById('fBanner').value   = fm.banner||'';
+  document.getElementById('fAuthor').value   = fm.author||'MMS Team';
   document.getElementById('statusLabel').textContent = 'Editando';
   previewBanner();
   const newBtn = document.querySelector('.sidebar-btn:nth-child(2)');
@@ -538,13 +570,11 @@ async function savePost() {
   const btn = document.getElementById('btnSave');
   btn.disabled = true; btn.textContent = '⏳ Publicando…';
   document.getElementById('statusLabel').textContent = 'Publicando…';
-
   try {
     const encoded = btoa(unescape(encodeURIComponent(content)));
-    const path = `${POSTS_PATH}/${slug}.md`;
-    const apiUrl = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${path}`;
+    const path    = `${POSTS_PATH}/${slug}.md`;
+    const apiUrl  = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${path}`;
 
-    // Check if file exists (for update)
     let sha = undefined;
     if (editingSlug) {
       const existing = allPosts.find(p => p.slug === slug);
@@ -562,8 +592,8 @@ async function savePost() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body)
     });
-
     if (!res.ok) { const err = await res.json(); throw new Error(err.message||'API error'); }
+
     showToast('✅ Post publicado com sucesso!', 'success');
     document.getElementById('statusLabel').textContent = 'Publicado';
     await loadPosts();
@@ -581,19 +611,24 @@ function openDeleteModal(slug, sha) {
   deletingSlug = slug; deletingFileSha = sha;
   document.getElementById('deleteModal').classList.add('open');
 }
+
 function closeDeleteModal() {
   deletingSlug = null; deletingFileSha = null;
   document.getElementById('deleteModal').classList.remove('open');
 }
+
 async function confirmDelete() {
   const btn = document.getElementById('btnConfirmDel');
   btn.disabled = true; btn.textContent = 'Deletando…';
   try {
-    const res = await ghFetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${POSTS_PATH}/${deletingSlug}.md`, {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: `delete: ${deletingSlug}`, sha: deletingFileSha })
-    });
+    const res = await ghFetch(
+      `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${POSTS_PATH}/${deletingSlug}.md`,
+      {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: `delete: ${deletingSlug}`, sha: deletingFileSha })
+      }
+    );
     if (!res.ok) throw new Error();
     showToast('Post deletado.', 'info');
     closeDeleteModal();
@@ -607,8 +642,9 @@ async function confirmDelete() {
 
 // ─── MARKDOWN TOOLBAR ─────────────────────────────────────────────────────────
 function mdInsert(before, after) {
-  const ta = document.getElementById('fBody');
-  const start = ta.selectionStart; const end = ta.selectionEnd;
+  const ta    = document.getElementById('fBody');
+  const start = ta.selectionStart;
+  const end   = ta.selectionEnd;
   const selected = ta.value.substring(start, end);
   ta.value = ta.value.substring(0,start) + before + selected + after + ta.value.substring(end);
   ta.focus();
@@ -636,8 +672,15 @@ function previewBanner() {
   else { img.style.display = 'none'; }
 }
 
-// Auto-generate slug from title
+function showToast(msg, type='success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = `toast show ${type}`;
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
+  // Auto-generate slug from title
   const titleInput = document.getElementById('fTitle');
   if (titleInput) {
     titleInput.addEventListener('input', () => {
@@ -650,42 +693,20 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
   // Set today's date
   const dateInput = document.getElementById('fDate');
   if (dateInput) dateInput.value = new Date().toISOString().slice(0,10);
+
+  // Enter key submits PAT
+  document.getElementById('patInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') loginWithPAT();
+  });
+
+  // Restore session
+  const stored = sessionStorage.getItem('mms_gh_token');
+  if (stored) { ghToken = stored; verifyAndEnter(); }
 });
-
-function showToast(msg, type='success') {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.className = `toast show ${type}`;
-  setTimeout(() => t.classList.remove('show'), 3500);
-}
-
-// ─── INIT ─────────────────────────────────────────────────────────────────────
-// Check for stored session
-const stored = sessionStorage.getItem('mms_gh_token');
-if (stored) { ghToken = stored; verifyAndEnter(); }
-
-// GitHub OAuth callback via URL fragment (when using OAuth proxy)
-const hashParams = new URLSearchParams(window.location.hash.slice(1));
-const oauthCode = new URLSearchParams(window.location.search).get('code');
-if (oauthCode) {
-  // Note: GitHub OAuth requires a server-side exchange of the code for a token.
-  // If you have a proxy (e.g. Netlify function / Cloudflare Worker), exchange here.
-  // For simple setups, use a PAT token instead.
-  // Show fallback PAT login automatically:
-  history.replaceState({}, '', window.location.pathname);
-  setTimeout(() => {
-    showToast('Autenticação OAuth requer proxy server. Use um Personal Access Token.', 'info');
-  }, 500);
-}
-
-// Expose PAT login as fallback on button
-document.querySelector('.btn-github').insertAdjacentHTML('afterend',
-  `<button class="btn-github" onclick="loginWithPAT()" style="margin-top:10px;background:var(--bg3);color:var(--text);border:1px solid var(--border);">
-    🔑 Entrar com Personal Access Token
-  </button>`
-);
 </script>
 </body>
 </html>
