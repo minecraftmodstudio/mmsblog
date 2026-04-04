@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Admin - Minecraft Mod Studio Blog</title>
+<title>Admin - Minecraft Mod Studio</title>
 <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/minecraftmodstudio/mmsblog/main/mmslogosimbolodc.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -325,8 +325,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-
       </div>
       <div class="sidebar-divider"></div>
       <div class="sidebar-section">
-        <button class="sidebar-btn" onclick="window.open('index.html','_blank')"><span class="sb-icon">🌐</span> Ver Blog</button>
-        <button class="sidebar-btn" onclick="window.open('https://minecraftmodstudio.github.io/mmswebsite/','_blank')"><span class="sb-icon">🏠</span> Site Principal</button>
+        <button class="sidebar-btn" onclick="window.open('https://minecraftmodstudio.github.io/mmswebsite/','_blank')"><span class="sb-icon">🌐</span> Ver Blog</button>
+        <button class="sidebar-btn" onclick="window.open('../index.html','_blank')"><span class="sb-icon">🏠</span> Site Principal</button>
       </div>
     </aside>
 
@@ -1019,16 +1019,21 @@ function buildContent() {
 async function savePost(forceStatus) {
   if(forceStatus) document.getElementById('fStatus').value = forceStatus;
   const { slug, content } = buildContent();
-  if(!slug || !document.getElementById('fTitle-pt').value.trim()) {
-    showToast('Slug e Título (PT) são obrigatórios.','error'); return;
-  }
+
+  // Validate: slug required + at least one title filled (use primary lang)
+  const primaryLang = document.getElementById('fPrimaryLang').value;
+  const primaryTitle = document.getElementById(`fTitle-${primaryLang}`).value.trim();
+  if(!slug) { showToast('Slug é obrigatório.','error'); return; }
+  if(!primaryTitle) { showToast(`Título em ${primaryLang.toUpperCase()} é obrigatório.`,'error'); return; }
+
   const btnP = document.getElementById('btnPublish');
   const btnD = document.getElementById('btnDraft');
   btnP.disabled=btnD.disabled=true;
   btnP.textContent='⏳ Salvando…';
   document.getElementById('statusLabel').textContent='Salvando…';
   try {
-    const encoded = btoa(unescape(encodeURIComponent(content)));
+    // Safe base64 encoding that handles all Unicode (emojis, accents, CJK, etc.)
+    const encoded = btoa(String.fromCharCode(...new TextEncoder().encode(content)));
     const apiUrl  = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${POSTS_PATH}/${slug}.md`;
     let sha;
     if(editingSlug) { const ep = allPosts.find(p=>p.slug===slug); if(ep) sha=ep.sha; }
