@@ -3,217 +3,290 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Admin - Minecraft Mod Studio</title>
+<title>Admin — MMS Blog</title>
 <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/minecraftmodstudio/mmsblog/main/mmslogosimbolodc.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
 <style>
 :root {
-  --green: #6ab84a;
-  --green-dk: #3a7a20;
-  --green-lt: #9de070;
-  --bg: #0d0d0d;
-  --bg2: #141414;
-  --bg3: #1a1a1a;
-  --border: #252525;
-  --text: #e0e0e0;
-  --muted: #555;
-  --amber: #c89040;
-  --red: #d94a4a;
-  --blue: #4a90d9;
+  --green:#6ab84a; --green-dk:#3a7a20; --green-lt:#9de070;
+  --bg:#0d0d0d; --bg2:#141414; --bg3:#1a1a1a; --bg4:#202020;
+  --border:#252525; --border2:#303030;
+  --text:#e0e0e0; --muted:#555; --muted2:#444;
+  --amber:#c89040; --red:#d94a4a; --blue:#4a90d9; --purple:#9b59b6;
 }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh}
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; }
+/* ── SCREENS ── */
+.screen{display:none}
+.screen.active{display:flex}
 
-/* ── SCREENS ─────────────────────────────────────── */
-.screen { display: none; }
-.screen.active { display: flex; }
+/* ── LOGIN ── */
+#loginScreen{min-height:100vh;align-items:center;justify-content:center;flex-direction:column;position:relative;overflow:hidden}
+#loginScreen::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(106,184,74,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(106,184,74,0.04) 1px,transparent 1px);background-size:40px 40px}
+#loginScreen::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 40%,rgba(106,184,74,0.08) 0%,transparent 70%);pointer-events:none}
+.login-card{position:relative;z-index:1;background:var(--bg2);border:1px solid var(--border);border-radius:18px;padding:48px 44px;max-width:400px;width:90%;text-align:center;animation:fadeUp .5s ease both}
+.login-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--green),transparent);border-radius:18px 18px 0 0}
+.login-logo{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:28px}
+.login-logo img{width:52px;height:52px;object-fit:contain}
+.login-logo-main{font-weight:800;font-size:16px;color:#fff;text-align:left}
+.login-logo-sub{font-size:10px;color:var(--green);font-weight:700;letter-spacing:1.5px;text-transform:uppercase;text-align:left}
+.login-card h2{font-size:1.3rem;font-weight:800;color:#fff;margin-bottom:8px}
+.login-card>p{font-size:13px;color:var(--muted);margin-bottom:28px;line-height:1.6}
+.pat-field label{display:block;font-size:11px;font-weight:700;color:#555;letter-spacing:.8px;text-transform:uppercase;margin-bottom:7px;font-family:'JetBrains Mono',monospace;text-align:left}
+.pat-input-wrap{position:relative}
+.pat-input{width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);font-size:13px;padding:11px 42px 11px 14px;border-radius:10px;outline:none;font-family:'JetBrains Mono',monospace;transition:border-color .2s}
+.pat-input:focus{border-color:var(--green)}
+.pat-input::placeholder{color:#333}
+.pat-toggle{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--muted);font-size:16px;line-height:1;padding:0}
+.btn-pat-login{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;background:var(--green);color:#0a1a04;font-weight:700;font-size:14px;padding:13px 24px;border-radius:10px;border:none;cursor:pointer;transition:background .2s,transform .15s;font-family:inherit;margin-top:16px}
+.btn-pat-login:hover{background:var(--green-lt);transform:translateY(-1px)}
+.login-note{margin-top:16px;font-size:11px;color:#333;line-height:1.6}
+.login-note a{color:var(--muted);text-decoration:underline}
 
-/* ── LOGIN SCREEN ────────────────────────────────── */
-#loginScreen { min-height: 100vh; align-items: center; justify-content: center; flex-direction: column; gap: 0; position: relative; overflow: hidden; }
-#loginScreen::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(106,184,74,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(106,184,74,0.04) 1px, transparent 1px); background-size: 40px 40px; }
-#loginScreen::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 50% at 50% 40%, rgba(106,184,74,0.08) 0%, transparent 70%); pointer-events: none; }
+/* ── ADMIN LAYOUT ── */
+#adminScreen{flex-direction:column;min-height:100vh}
+.admin-nav{display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:54px;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50;flex-shrink:0}
+.admin-nav-logo{display:flex;align-items:center;gap:9px}
+.admin-nav-logo img{width:26px;height:26px;object-fit:contain}
+.admin-nav-logo span{font-weight:700;font-size:13px;color:var(--text)}
+.admin-nav-badge{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;background:rgba(106,184,74,.15);border:1px solid rgba(106,184,74,.3);color:var(--green);padding:2px 8px;border-radius:100px;margin-left:4px}
+.admin-nav-right{display:flex;align-items:center;gap:10px}
+.admin-user{display:flex;align-items:center;gap:8px}
+.admin-user-avatar{width:26px;height:26px;border-radius:50%;border:1px solid var(--border);overflow:hidden}
+.admin-user-avatar img{width:100%;height:100%;object-fit:cover}
+.admin-user-name{font-size:12px;color:var(--muted);font-weight:500}
+.btn-logout{font-size:11px;color:var(--muted);background:none;border:1px solid var(--border);padding:5px 12px;border-radius:6px;cursor:pointer;transition:all .15s;font-family:inherit}
+.btn-logout:hover{border-color:var(--red);color:var(--red)}
 
-.login-card { position: relative; z-index: 1; background: var(--bg2); border: 1px solid var(--border); border-radius: 18px; padding: 48px 44px; max-width: 400px; width: 90%; text-align: center; animation: fadeUp 0.5s ease both; }
-.login-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--green), transparent); border-radius: 18px 18px 0 0; }
+.admin-body{display:grid;grid-template-columns:220px 1fr;flex:1;min-height:0}
+.admin-sidebar{background:var(--bg2);border-right:1px solid var(--border);padding:16px 0;overflow-y:auto}
+.sidebar-section{padding:0 12px;margin-bottom:20px}
+.sidebar-label{font-size:9px;font-weight:700;color:#2a2a2a;letter-spacing:1.5px;text-transform:uppercase;padding:0 8px;margin-bottom:6px;font-family:'JetBrains Mono',monospace}
+.sidebar-btn{display:flex;align-items:center;gap:9px;width:100%;padding:8px 10px;border-radius:7px;border:none;background:none;color:var(--muted);font-size:12px;font-family:inherit;cursor:pointer;transition:background .15s,color .15s;text-align:left}
+.sidebar-btn:hover{background:rgba(255,255,255,.04);color:var(--text)}
+.sidebar-btn.active{background:rgba(106,184,74,.1);color:var(--green)}
+.sidebar-btn .sb-icon{font-size:14px;flex-shrink:0;width:18px;text-align:center}
+.sidebar-divider{height:1px;background:var(--border);margin:8px 12px}
+.sidebar-stat{padding:5px 18px;font-size:11px;color:#2a2a2a;font-family:'JetBrains Mono',monospace}
+.sidebar-stat strong{color:var(--green)}
+.stat-row{display:flex;gap:6px;padding:8px 12px;flex-wrap:wrap}
+.stat-chip{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:5px 10px;font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--muted);display:flex;flex-direction:column;align-items:center;flex:1;min-width:50px}
+.stat-chip strong{color:var(--green);font-size:14px;line-height:1.2}
 
-.login-logo { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 28px; }
-.login-logo img { width: 52px; height: 52px; object-fit: contain; }
-.login-logo-text { text-align: left; }
-.login-logo-main { font-weight: 800; font-size: 16px; color: #fff; }
-.login-logo-sub { font-size: 10px; color: var(--green); font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
+.admin-main{padding:24px 28px;overflow-y:auto}
 
-.login-card h2 { font-size: 1.3rem; font-weight: 800; color: #fff; margin-bottom: 8px; }
-.login-card > p { font-size: 13px; color: var(--muted); margin-bottom: 28px; line-height: 1.6; }
+/* ── VIEWS ── */
+.view{display:none}
+.view.active{display:block}
 
-.pat-field { margin-bottom: 16px; text-align: left; }
-.pat-field label { display: block; font-size: 11px; font-weight: 700; color: #555; letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 7px; font-family: 'JetBrains Mono', monospace; }
-.pat-input-wrap { position: relative; }
-.pat-input { width: 100%; background: var(--bg3); border: 1px solid var(--border); color: var(--text); font-size: 13px; padding: 11px 42px 11px 14px; border-radius: 10px; outline: none; font-family: 'JetBrains Mono', monospace; transition: border-color 0.2s; }
-.pat-input:focus { border-color: var(--green); }
-.pat-input::placeholder { color: #333; }
-.pat-toggle { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--muted); font-size: 16px; line-height: 1; padding: 0; }
-.pat-toggle:hover { color: var(--text); }
+/* ── POSTS LIST ── */
+.view-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;gap:12px;flex-wrap:wrap}
+.view-title{font-size:1.1rem;font-weight:800;color:#fff}
+.view-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.btn-primary{display:inline-flex;align-items:center;gap:7px;background:var(--green);color:#0a1a04;font-weight:700;font-size:12px;padding:8px 16px;border-radius:7px;border:none;cursor:pointer;transition:background .2s,transform .15s;font-family:inherit}
+.btn-primary:hover{background:var(--green-lt);transform:translateY(-1px)}
+.search-bar{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.search-bar input,.search-bar select{background:var(--bg3);border:1px solid var(--border);color:var(--text);font-size:12px;padding:7px 12px;border-radius:7px;outline:none;font-family:inherit;transition:border-color .2s}
+.search-bar input{flex:1;min-width:160px}
+.search-bar input:focus,.search-bar select:focus{border-color:var(--green)}
+.search-bar select option{background:var(--bg3)}
 
-.btn-pat-login { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; background: var(--green); color: #0a1a04; font-weight: 700; font-size: 14px; padding: 13px 24px; border-radius: 10px; border: none; cursor: pointer; transition: background 0.2s, transform 0.15s; font-family: inherit; }
-.btn-pat-login:hover { background: var(--green-lt); transform: translateY(-1px); }
+.posts-table{background:var(--bg2);border:1px solid var(--border);border-radius:11px;overflow:hidden}
+.table-head-row{display:grid;grid-template-columns:1fr 80px 80px 70px 100px;align-items:center;padding:10px 16px;border-bottom:1px solid var(--border);font-size:9px;font-weight:700;color:#2d2d2d;letter-spacing:1px;text-transform:uppercase;font-family:'JetBrains Mono',monospace}
+.table-data-row{display:grid;grid-template-columns:1fr 80px 80px 70px 100px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--border);transition:background .15s}
+.table-data-row:last-child{border-bottom:none}
+.table-data-row:hover{background:rgba(255,255,255,.02)}
+.post-row-title{font-size:12px;font-weight:600;color:var(--text)}
+.post-row-meta{font-size:10px;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-top:2px;display:flex;gap:8px;flex-wrap:wrap}
+.post-row-lang{font-size:9px;font-weight:700;background:rgba(74,144,217,.12);color:var(--blue);padding:1px 6px;border-radius:4px;border:1px solid rgba(74,144,217,.25);letter-spacing:.5px}
+.tag-pill{font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:2px 7px;border-radius:100px;white-space:nowrap}
+.tag-pill.update{background:rgba(200,144,64,.15);color:var(--amber)}
+.tag-pill.guide{background:rgba(106,184,74,.15);color:var(--green)}
+.tag-pill.devlog{background:rgba(217,74,74,.15);color:var(--red)}
+.tag-pill.news{background:rgba(74,144,217,.15);color:var(--blue)}
+.tag-pill.release{background:rgba(106,184,74,.25);color:var(--green-lt)}
+.tag-pill.custom{background:rgba(155,89,182,.15);color:var(--purple)}
+.status-badge{font-size:9px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:2px 8px;border-radius:100px}
+.status-badge.published{background:rgba(106,184,74,.12);color:var(--green);border:1px solid rgba(106,184,74,.25)}
+.status-badge.draft{background:rgba(200,144,64,.12);color:var(--amber);border:1px solid rgba(200,144,64,.25)}
+.status-badge.scheduled{background:rgba(74,144,217,.12);color:var(--blue);border:1px solid rgba(74,144,217,.25)}
+.row-actions{display:flex;gap:4px;justify-content:flex-end}
+.btn-sm{font-size:10px;color:var(--muted);background:none;border:1px solid var(--border);padding:3px 8px;border-radius:5px;cursor:pointer;transition:all .15s;font-family:inherit;white-space:nowrap}
+.btn-sm:hover{border-color:#444;color:var(--text)}
+.btn-sm.edit:hover{border-color:var(--green);color:var(--green)}
+.btn-sm.del:hover{border-color:var(--red);color:var(--red)}
+.btn-sm.preview:hover{border-color:var(--blue);color:var(--blue)}
+.empty-table{padding:40px;text-align:center;color:var(--muted);font-size:13px}
 
-.login-note { margin-top: 16px; font-size: 11px; color: #333; line-height: 1.6; }
-.login-note a { color: var(--muted); text-decoration: underline; }
+/* ── TAGS MANAGER ── */
+.tags-manager{margin-top:20px}
+.tags-grid{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.tag-manage-item{display:flex;align-items:center;gap:6px;background:var(--bg3);border:1px solid var(--border);border-radius:7px;padding:6px 10px;font-size:12px}
+.tag-manage-item .tag-color{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.tag-manage-item button{background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px;line-height:1;padding:0;transition:color .15s}
+.tag-manage-item button:hover{color:var(--red)}
+.add-tag-row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;align-items:flex-end}
+.add-tag-row input{background:var(--bg3);border:1px solid var(--border);color:var(--text);font-size:12px;padding:7px 12px;border-radius:7px;outline:none;font-family:inherit;transition:border-color .2s}
+.add-tag-row input:focus{border-color:var(--green)}
 
-/* ── ADMIN LAYOUT ────────────────────────────────── */
-#adminScreen { flex-direction: column; min-height: 100vh; }
-.admin-nav { display: flex; align-items: center; justify-content: space-between; padding: 0 28px; height: 54px; background: var(--bg2); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 50; flex-shrink: 0; }
-.admin-nav-logo { display: flex; align-items: center; gap: 9px; }
-.admin-nav-logo img { width: 28px; height: 28px; object-fit: contain; }
-.admin-nav-logo span { font-weight: 700; font-size: 13px; color: var(--text); }
-.admin-nav-badge { font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; background: rgba(106,184,74,0.15); border: 1px solid rgba(106,184,74,0.3); color: var(--green); padding: 2px 8px; border-radius: 100px; margin-left: 4px; }
-.admin-nav-right { display: flex; align-items: center; gap: 12px; }
-.admin-user { display: flex; align-items: center; gap: 8px; }
-.admin-user-avatar { width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--border); overflow: hidden; }
-.admin-user-avatar img { width: 100%; height: 100%; object-fit: cover; }
-.admin-user-name { font-size: 12px; color: var(--muted); font-weight: 500; }
-.btn-logout { font-size: 11px; color: var(--muted); background: none; border: 1px solid var(--border); padding: 5px 12px; border-radius: 6px; cursor: pointer; transition: all 0.15s; font-family: inherit; }
-.btn-logout:hover { border-color: var(--red); color: var(--red); }
+/* ── EDITOR ── */
+.editor-layout{display:grid;grid-template-columns:1fr 300px;gap:20px;align-items:start}
+.editor-card{background:var(--bg2);border:1px solid var(--border);border-radius:11px;padding:20px;margin-bottom:14px}
+.editor-card h4{font-size:10px;font-weight:700;color:#3a3a3a;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px;font-family:'JetBrains Mono',monospace}
+.editor-field{margin-bottom:14px}
+.editor-field:last-child{margin-bottom:0}
+.editor-field label{display:block;font-size:10px;font-weight:700;color:#444;letter-spacing:.8px;text-transform:uppercase;margin-bottom:6px;font-family:'JetBrains Mono',monospace}
+.editor-input{width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);font-size:13px;padding:9px 12px;border-radius:7px;outline:none;font-family:inherit;transition:border-color .2s}
+.editor-input:focus{border-color:var(--green)}
+.editor-input::placeholder{color:#2a2a2a}
+.editor-select{width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);font-size:13px;padding:9px 12px;border-radius:7px;outline:none;font-family:inherit;cursor:pointer;appearance:none;transition:border-color .2s}
+.editor-select:focus{border-color:var(--green)}
+.editor-select option{background:var(--bg3)}
+.editor-textarea{width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);font-size:12px;padding:12px;border-radius:7px;outline:none;font-family:'JetBrains Mono',monospace;line-height:1.7;resize:vertical;min-height:360px;transition:border-color .2s}
+.editor-textarea:focus{border-color:var(--green)}
 
-.admin-body { display: grid; grid-template-columns: 240px 1fr; flex: 1; }
-.admin-sidebar { background: var(--bg2); border-right: 1px solid var(--border); padding: 20px 0; }
-.sidebar-section { padding: 0 16px; margin-bottom: 24px; }
-.sidebar-label { font-size: 9px; font-weight: 700; color: #333; letter-spacing: 1.5px; text-transform: uppercase; padding: 0 8px; margin-bottom: 6px; font-family: 'JetBrains Mono', monospace; }
-.sidebar-btn { display: flex; align-items: center; gap: 9px; width: 100%; padding: 9px 12px; border-radius: 8px; border: none; background: none; color: var(--muted); font-size: 13px; font-family: inherit; cursor: pointer; transition: background 0.15s, color 0.15s; text-align: left; }
-.sidebar-btn:hover { background: rgba(255,255,255,0.04); color: var(--text); }
-.sidebar-btn.active { background: rgba(106,184,74,0.1); color: var(--green); }
-.sidebar-btn span { font-size: 15px; flex-shrink: 0; }
-.sidebar-divider { height: 1px; background: var(--border); margin: 8px 16px; }
-.sidebar-stat { padding: 8px 12px; font-size: 12px; color: #333; font-family: 'JetBrains Mono', monospace; }
-.sidebar-stat strong { color: var(--green); }
-.admin-main { padding: 28px 32px; overflow-y: auto; }
+/* Lang tabs */
+.lang-tabs{display:flex;gap:4px;margin-bottom:14px;flex-wrap:wrap}
+.lang-tab{background:var(--bg3);border:1px solid var(--border);color:var(--muted);font-size:11px;font-weight:600;padding:5px 12px;border-radius:6px;cursor:pointer;transition:all .15s;font-family:inherit}
+.lang-tab.active{background:rgba(74,144,217,.12);border-color:rgba(74,144,217,.4);color:var(--blue)}
+.lang-tab.has-content{border-color:rgba(106,184,74,.3);color:var(--green)}
+.lang-tab.active.has-content{background:rgba(106,184,74,.12)}
+.lang-panel{display:none}
+.lang-panel.active{display:block}
 
-/* ── VIEWS ───────────────────────────────────────── */
-.view { display: none; }
-.view.active { display: block; }
+/* MD toolbar */
+.md-toolbar{display:flex;gap:3px;flex-wrap:wrap;margin-bottom:6px}
+.md-btn{background:var(--bg3);border:1px solid var(--border);color:var(--muted);font-size:10px;font-weight:600;padding:3px 8px;border-radius:4px;cursor:pointer;transition:all .15s;font-family:'JetBrains Mono',monospace}
+.md-btn:hover{border-color:#444;color:var(--text)}
 
-/* Posts List */
-.view-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
-.view-title { font-size: 1.2rem; font-weight: 800; color: #fff; }
-.btn-primary { display: inline-flex; align-items: center; gap: 7px; background: var(--green); color: #0a1a04; font-weight: 700; font-size: 13px; padding: 9px 18px; border-radius: 8px; border: none; cursor: pointer; transition: background 0.2s, transform 0.15s; font-family: inherit; }
-.btn-primary:hover { background: var(--green-lt); transform: translateY(-1px); }
-.posts-table { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
-.table-row { display: grid; grid-template-columns: 1fr 120px 100px 90px; align-items: center; padding: 14px 20px; border-bottom: 1px solid var(--border); transition: background 0.15s; }
-.table-row:last-child { border-bottom: none; }
-.table-row:hover { background: rgba(255,255,255,0.02); }
-.table-head { font-size: 10px; font-weight: 700; color: #333; letter-spacing: 1px; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; }
-.table-head:hover { background: transparent; }
-.post-row-title { font-size: 13px; font-weight: 600; color: var(--text); }
-.post-row-slug { font-size: 11px; color: var(--muted); font-family: 'JetBrains Mono', monospace; margin-top: 2px; }
-.post-row-date { font-size: 11px; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
-.tag-pill { font-size: 9px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; padding: 3px 8px; border-radius: 100px; }
-.tag-pill.update { background: rgba(200,144,64,0.15); color: var(--amber); }
-.tag-pill.guide { background: rgba(106,184,74,0.15); color: var(--green); }
-.tag-pill.devlog { background: rgba(217,74,74,0.15); color: var(--red); }
-.tag-pill.news { background: rgba(74,144,217,0.15); color: var(--blue); }
-.tag-pill.release { background: rgba(106,184,74,0.25); color: var(--green-lt); }
-.row-actions { display: flex; gap: 6px; justify-content: flex-end; }
-.btn-edit { font-size: 11px; color: var(--muted); background: none; border: 1px solid var(--border); padding: 4px 10px; border-radius: 5px; cursor: pointer; transition: all 0.15s; font-family: inherit; }
-.btn-edit:hover { border-color: var(--green); color: var(--green); }
-.btn-del { font-size: 11px; color: var(--muted); background: none; border: 1px solid var(--border); padding: 4px 10px; border-radius: 5px; cursor: pointer; transition: all 0.15s; font-family: inherit; }
-.btn-del:hover { border-color: var(--red); color: var(--red); }
-.empty-table { padding: 40px; text-align: center; color: var(--muted); font-size: 13px; }
+/* Image upload */
+.img-upload-area{border:2px dashed var(--border);border-radius:8px;padding:20px;text-align:center;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.img-upload-area:hover{border-color:var(--green);background:rgba(106,184,74,.03)}
+.img-upload-area.dragover{border-color:var(--green);background:rgba(106,184,74,.06)}
+.img-upload-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.img-upload-icon{font-size:28px;margin-bottom:8px;opacity:.4}
+.img-upload-text{font-size:11px;color:var(--muted);line-height:1.5}
+.img-preview{width:100%;height:120px;border-radius:7px;object-fit:cover;border:1px solid var(--border);display:none;margin-top:8px}
+.img-upload-progress{display:none;margin-top:10px}
+.img-upload-bar{height:3px;background:var(--bg4);border-radius:2px;overflow:hidden;margin-top:6px}
+.img-upload-fill{height:100%;background:var(--green);width:0%;transition:width .3s;border-radius:2px}
+.img-upload-status{font-size:10px;color:var(--muted);font-family:'JetBrains Mono',monospace}
+.img-url-row{display:flex;gap:6px;margin-top:8px}
+.img-url-row input{flex:1;background:var(--bg3);border:1px solid var(--border);color:var(--text);font-size:11px;padding:6px 10px;border-radius:6px;outline:none;font-family:'JetBrains Mono',monospace;transition:border-color .2s}
+.img-url-row input:focus{border-color:var(--green)}
+.btn-clear-img{background:none;border:1px solid var(--border);color:var(--muted);font-size:10px;padding:6px 10px;border-radius:6px;cursor:pointer;font-family:inherit;white-space:nowrap;transition:all .15s}
+.btn-clear-img:hover{border-color:var(--red);color:var(--red)}
 
-/* Editor */
-.editor-grid { display: grid; grid-template-columns: 1fr 280px; gap: 20px; align-items: start; }
-.editor-field { margin-bottom: 16px; }
-.editor-field label { display: block; font-size: 11px; font-weight: 700; color: #555; letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 7px; font-family: 'JetBrains Mono', monospace; }
-.editor-input { width: 100%; background: var(--bg3); border: 1px solid var(--border); color: var(--text); font-size: 13px; padding: 10px 14px; border-radius: 8px; outline: none; font-family: inherit; transition: border-color 0.2s; }
-.editor-input:focus { border-color: var(--green); }
-.editor-input::placeholder { color: #333; }
-.editor-select { width: 100%; background: var(--bg3); border: 1px solid var(--border); color: var(--text); font-size: 13px; padding: 10px 14px; border-radius: 8px; outline: none; font-family: inherit; cursor: pointer; appearance: none; transition: border-color 0.2s; }
-.editor-select:focus { border-color: var(--green); }
-.editor-textarea { width: 100%; background: var(--bg3); border: 1px solid var(--border); color: var(--text); font-size: 13px; padding: 14px; border-radius: 8px; outline: none; font-family: 'JetBrains Mono', monospace; line-height: 1.7; resize: vertical; min-height: 400px; transition: border-color 0.2s; }
-.editor-textarea:focus { border-color: var(--green); }
-.editor-sidebar-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 16px; }
-.editor-sidebar-card h4 { font-size: 11px; font-weight: 700; color: #444; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 14px; font-family: 'JetBrains Mono', monospace; }
-.preview-banner { width: 100%; height: 100px; border-radius: 8px; object-fit: cover; border: 1px solid var(--border); margin-top: 8px; display: none; }
-.status-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
-.status-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-.status-label { font-size: 12px; color: var(--muted); }
-.editor-actions { display: flex; gap: 10px; flex-direction: column; }
-.btn-save { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background: var(--green); color: #0a1a04; font-weight: 700; font-size: 13px; padding: 11px; border-radius: 8px; border: none; cursor: pointer; transition: background 0.2s; font-family: inherit; }
-.btn-save:hover { background: var(--green-lt); }
-.btn-save:disabled { opacity: 0.5; cursor: not-allowed; }
-.btn-cancel { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background: none; color: var(--muted); font-size: 12px; padding: 9px; border-radius: 8px; border: 1px solid var(--border); cursor: pointer; transition: all 0.15s; font-family: inherit; }
-.btn-cancel:hover { border-color: #444; color: var(--text); }
-.md-toolbar { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 8px; }
-.md-btn { background: var(--bg3); border: 1px solid var(--border); color: var(--muted); font-size: 11px; font-weight: 600; padding: 4px 9px; border-radius: 5px; cursor: pointer; transition: all 0.15s; font-family: 'JetBrains Mono', monospace; }
-.md-btn:hover { border-color: #444; color: var(--text); }
+/* Publish sidebar */
+.status-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.status-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.status-label{font-size:12px;color:var(--muted)}
+.editor-actions{display:flex;gap:8px;flex-direction:column;margin-top:14px}
+.btn-publish{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:var(--green);color:#0a1a04;font-weight:700;font-size:12px;padding:10px;border-radius:7px;border:none;cursor:pointer;transition:background .2s;font-family:inherit}
+.btn-publish:hover{background:var(--green-lt)}
+.btn-publish:disabled{opacity:.5;cursor:not-allowed}
+.btn-draft{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:rgba(200,144,64,.1);color:var(--amber);font-weight:700;font-size:12px;padding:10px;border-radius:7px;border:1px solid rgba(200,144,64,.3);cursor:pointer;transition:all .2s;font-family:inherit}
+.btn-draft:hover{background:rgba(200,144,64,.18)}
+.btn-draft:disabled{opacity:.5;cursor:not-allowed}
+.btn-preview-post{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:rgba(74,144,217,.1);color:var(--blue);font-weight:700;font-size:12px;padding:10px;border-radius:7px;border:1px solid rgba(74,144,217,.3);cursor:pointer;transition:all .2s;font-family:inherit}
+.btn-preview-post:hover{background:rgba(74,144,217,.18)}
+.btn-cancel-edit{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:none;color:var(--muted);font-size:11px;padding:8px;border-radius:7px;border:1px solid var(--border);cursor:pointer;transition:all .15s;font-family:inherit}
+.btn-cancel-edit:hover{border-color:#444;color:var(--text)}
 
-/* Toast */
-.toast { position: fixed; bottom: 24px; right: 24px; z-index: 999; padding: 12px 18px; border-radius: 10px; font-size: 13px; font-weight: 600; display: none; align-items: center; gap: 8px; animation: slideIn 0.3s ease; box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
-.toast.show { display: flex; }
-.toast.success { background: rgba(106,184,74,0.15); border: 1px solid rgba(106,184,74,0.3); color: var(--green); }
-.toast.error { background: rgba(217,74,74,0.15); border: 1px solid rgba(217,74,74,0.3); color: var(--red); }
-.toast.info { background: rgba(74,144,217,0.15); border: 1px solid rgba(74,144,217,0.3); color: var(--blue); }
+/* ── PREVIEW MODAL ── */
+.preview-overlay{display:none;position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.85);backdrop-filter:blur(6px);flex-direction:column}
+.preview-overlay.open{display:flex}
+.preview-bar{display:flex;align-items:center;justify-content:space-between;padding:10px 20px;background:var(--bg2);border-bottom:1px solid var(--border);flex-shrink:0}
+.preview-bar-title{font-size:13px;font-weight:700;color:#fff}
+.preview-bar-lang{display:flex;gap:4px}
+.preview-bar-lang button{background:var(--bg3);border:1px solid var(--border);color:var(--muted);font-size:11px;font-weight:600;padding:4px 10px;border-radius:5px;cursor:pointer;font-family:inherit;transition:all .15s}
+.preview-bar-lang button.active{background:rgba(74,144,217,.12);border-color:rgba(74,144,217,.4);color:var(--blue)}
+.preview-close{background:none;border:1px solid var(--border);color:var(--muted);font-size:12px;padding:5px 14px;border-radius:6px;cursor:pointer;font-family:inherit;transition:all .15s}
+.preview-close:hover{border-color:var(--red);color:var(--red)}
+.preview-iframe-wrap{flex:1;overflow:hidden;position:relative}
+.preview-content{width:100%;height:100%;overflow-y:auto;background:var(--bg);padding:40px;font-family:'Inter',sans-serif}
+.preview-post-header{max-width:760px;margin:0 auto 32px}
+.preview-post-tag{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:4px 11px;border-radius:100px;display:inline-block;margin-bottom:14px}
+.preview-post-title{font-size:clamp(1.5rem,3vw,2.4rem);font-weight:900;color:#fff;line-height:1.1;margin-bottom:12px;letter-spacing:-1px}
+.preview-post-excerpt{font-size:1rem;color:#777;line-height:1.7;margin-bottom:20px}
+.preview-post-body{max-width:760px;margin:0 auto;font-size:.95rem;line-height:1.85;color:#aaa}
+.preview-post-body h1,.preview-post-body h2,.preview-post-body h3{color:#fff;font-weight:700;margin:1.8em 0 .6em;letter-spacing:-.3px}
+.preview-post-body h2{font-size:1.3rem}
+.preview-post-body h3{font-size:1.1rem}
+.preview-post-body p{margin-bottom:1.2em}
+.preview-post-body code{font-family:'JetBrains Mono',monospace;font-size:.82em;background:var(--bg3);border:1px solid var(--border);padding:2px 6px;border-radius:4px;color:var(--green-lt)}
+.preview-post-body pre{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:20px;margin:1.5em 0;overflow-x:auto}
+.preview-post-body pre code{background:none;border:none;padding:0;font-size:.88em;color:#ccc}
+.preview-post-body blockquote{border-left:3px solid var(--green);padding:12px 20px;margin:1.5em 0;background:rgba(106,184,74,.05);border-radius:0 8px 8px 0;color:#888;font-style:italic}
+.preview-post-body ul,.preview-post-body ol{padding-left:1.5em;margin-bottom:1.2em}
+.preview-post-body li{margin-bottom:.4em}
+.preview-banner-img{max-width:760px;margin:0 auto 32px;border-radius:12px;overflow:hidden;border:1px solid var(--border)}
+.preview-banner-img img{width:100%;display:block;max-height:400px;object-fit:cover}
 
-/* Modal */
-.modal-overlay { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); align-items: center; justify-content: center; }
-.modal-overlay.open { display: flex; }
-.modal { background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; padding: 32px; max-width: 420px; width: 90%; animation: fadeUp 0.25s ease; }
-.modal h3 { font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: 10px; }
-.modal p { font-size: 13px; color: var(--muted); margin-bottom: 24px; line-height: 1.6; }
-.modal-actions { display: flex; gap: 10px; justify-content: flex-end; }
-.btn-confirm-del { background: var(--red); color: #fff; font-weight: 700; font-size: 13px; padding: 9px 18px; border-radius: 8px; border: none; cursor: pointer; font-family: inherit; transition: opacity 0.15s; }
-.btn-confirm-del:hover { opacity: 0.85; }
-.btn-confirm-del:disabled { opacity: 0.5; cursor: not-allowed; }
+/* ── TOAST ── */
+.toast{position:fixed;bottom:20px;right:20px;z-index:999;padding:11px 16px;border-radius:9px;font-size:12px;font-weight:600;display:none;align-items:center;gap:8px;animation:slideIn .3s ease;box-shadow:0 8px 32px rgba(0,0,0,.4);max-width:320px}
+.toast.show{display:flex}
+.toast.success{background:rgba(106,184,74,.15);border:1px solid rgba(106,184,74,.3);color:var(--green)}
+.toast.error{background:rgba(217,74,74,.15);border:1px solid rgba(217,74,74,.3);color:var(--red)}
+.toast.info{background:rgba(74,144,217,.15);border:1px solid rgba(74,144,217,.3);color:var(--blue)}
+.toast.warning{background:rgba(200,144,64,.15);border:1px solid rgba(200,144,64,.3);color:var(--amber)}
 
-@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+/* ── MODAL ── */
+.modal-overlay{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.75);backdrop-filter:blur(4px);align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:28px;max-width:420px;width:90%;animation:fadeUp .25s ease}
+.modal h3{font-size:1rem;font-weight:700;color:#fff;margin-bottom:8px}
+.modal p{font-size:12px;color:var(--muted);margin-bottom:20px;line-height:1.6}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end}
+.btn-confirm-del{background:var(--red);color:#fff;font-weight:700;font-size:12px;padding:8px 16px;border-radius:7px;border:none;cursor:pointer;font-family:inherit;transition:opacity .15s}
+.btn-confirm-del:hover{opacity:.85}
 
-@media (max-width: 900px) {
-  .admin-body { grid-template-columns: 1fr; }
-  .admin-sidebar { display: none; }
-  .editor-grid { grid-template-columns: 1fr; }
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+
+@media(max-width:900px){
+  .admin-body{grid-template-columns:1fr}
+  .admin-sidebar{display:none}
+  .editor-layout{grid-template-columns:1fr}
+  .table-head-row,.table-data-row{grid-template-columns:1fr 70px 80px}
+  .col-lang,.col-date{display:none}
 }
 </style>
 </head>
 <body>
 
-<!-- ── LOGIN SCREEN ───────────────────────────────────────────────────────── -->
+<!-- LOGIN -->
 <div class="screen active" id="loginScreen">
   <div class="login-card">
     <div class="login-logo">
-      <img src="https://raw.githubusercontent.com/minecraftmodstudio/mmsblog/main/mmslogosimbolodc.png" alt="MMS Logo" />
-      <div class="login-logo-text">
+      <img src="https://raw.githubusercontent.com/minecraftmodstudio/mmsblog/main/mmslogosimbolodc.png" alt="MMS" />
+      <div>
         <div class="login-logo-main">Minecraft Mod Studio</div>
         <div class="login-logo-sub">Blog Admin</div>
       </div>
     </div>
-
     <h2>Área Restrita</h2>
-    <p>Cole seu Personal Access Token do GitHub para acessar o painel de administração.</p>
-
+    <p>Cole seu Personal Access Token do GitHub para acessar o painel.</p>
     <div class="pat-field">
       <label>Personal Access Token</label>
       <div class="pat-input-wrap">
-        <input class="pat-input" id="patInput" type="password" placeholder="ghp_••••••••••••••••••••••••••••••••••••••" />
-        <button class="pat-toggle" onclick="togglePATVisibility()" title="Mostrar/ocultar token">👁</button>
+        <input class="pat-input" id="patInput" type="password" placeholder="ghp_••••••••••••••••••" />
+        <button class="pat-toggle" onclick="togglePATVis()" title="Mostrar/ocultar">👁</button>
       </div>
     </div>
-
-    <button class="btn-pat-login" onclick="loginWithPAT()">
-      🔑 Entrar
-    </button>
-
+    <button class="btn-pat-login" onclick="loginWithPAT()">🔑 Entrar</button>
     <p class="login-note">
-      Apenas colaboradores do repositório <strong>minecraftmodstudio/mmsblog</strong> têm acesso.<br/>
-      <a href="https://github.com/settings/tokens/new?scopes=repo&description=mmsblog-admin" target="_blank">Gerar novo token com scope <code>repo</code> →</a>
+      Apenas colaboradores de <strong>minecraftmodstudio/mmsblog</strong>.<br/>
+      <a href="https://github.com/settings/tokens/new?scopes=repo&description=mmsblog-admin" target="_blank">Gerar token com scope <code>repo</code> →</a>
     </p>
   </div>
 </div>
 
-<!-- ── ADMIN SCREEN ───────────────────────────────────────────────────────── -->
+<!-- ADMIN -->
 <div class="screen" id="adminScreen">
   <nav class="admin-nav">
     <div class="admin-nav-logo">
@@ -233,34 +306,66 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
   <div class="admin-body">
     <aside class="admin-sidebar">
       <div class="sidebar-section">
-        <div class="sidebar-label">Menu</div>
-        <button class="sidebar-btn active" onclick="showView('posts',this)"><span>📄</span> Posts</button>
-        <button class="sidebar-btn" onclick="showView('new',this)"><span>✏️</span> Novo Post</button>
+        <div class="sidebar-label">Conteúdo</div>
+        <button class="sidebar-btn active" id="sb-posts" onclick="showView('posts',this)"><span class="sb-icon">📄</span> Posts</button>
+        <button class="sidebar-btn" id="sb-new" onclick="showView('editor',this)"><span class="sb-icon">✏️</span> Novo Post</button>
+        <button class="sidebar-btn" id="sb-tags" onclick="showView('tags',this)"><span class="sb-icon">🏷️</span> Tags</button>
       </div>
       <div class="sidebar-divider"></div>
       <div class="sidebar-section">
-        <div class="sidebar-label">Repositório</div>
-        <div class="sidebar-stat">Total: <strong id="statTotal">—</strong></div>
-        <div class="sidebar-stat">Publicados: <strong id="statPub">—</strong></div>
+        <div class="sidebar-label">Stats</div>
+        <div class="stat-row">
+          <div class="stat-chip"><strong id="statTotal">—</strong>Total</div>
+          <div class="stat-chip"><strong id="statPub">—</strong>Pub.</div>
+          <div class="stat-chip"><strong id="statDraft">—</strong>Rascunho</div>
+        </div>
+        <div class="stat-row">
+          <div class="stat-chip"><strong id="statSched">—</strong>Agend.</div>
+          <div class="stat-chip"><strong id="statLangs">—</strong>Idiomas</div>
+        </div>
       </div>
       <div class="sidebar-divider"></div>
       <div class="sidebar-section">
-        <button class="sidebar-btn" onclick="window.open('index.html','_blank')"><span>🌐</span> Ver Blog</button>
-        <button class="sidebar-btn" onclick="window.open('https://minecraftmodstudio.github.io/mmswebsite/','_blank')"><span>🏠</span> Site Principal</button>
+        <button class="sidebar-btn" onclick="window.open('index.html','_blank')"><span class="sb-icon">🌐</span> Ver Blog</button>
+        <button class="sidebar-btn" onclick="window.open('../index.html','_blank')"><span class="sb-icon">🏠</span> Site Principal</button>
       </div>
     </aside>
 
     <main class="admin-main">
+
       <!-- POSTS LIST -->
       <div class="view active" id="viewPosts">
         <div class="view-header">
           <h2 class="view-title">Posts</h2>
-          <button class="btn-primary" onclick="showView('new', document.querySelector('.sidebar-btn:nth-child(2)'))">✏️ Novo Post</button>
+          <div class="view-actions">
+            <button class="btn-primary" onclick="newPost()">✏️ Novo Post</button>
+          </div>
+        </div>
+        <div class="search-bar">
+          <input type="text" id="listSearch" placeholder="🔍  Pesquisar posts..." oninput="renderTable()" />
+          <select id="listFilterLang" onchange="renderTable()">
+            <option value="">Todos idiomas</option>
+            <option value="pt">🇧🇷 PT</option>
+            <option value="en">🇺🇸 EN</option>
+            <option value="es">🇪🇸 ES</option>
+            <option value="fr">🇫🇷 FR</option>
+            <option value="de">🇩🇪 DE</option>
+          </select>
+          <select id="listFilterStatus" onchange="renderTable()">
+            <option value="">Todos status</option>
+            <option value="published">Publicado</option>
+            <option value="draft">Rascunho</option>
+            <option value="scheduled">Agendado</option>
+          </select>
+          <select id="listFilterTag" onchange="renderTable()">
+            <option value="">Todas tags</option>
+          </select>
         </div>
         <div class="posts-table">
-          <div class="table-row table-head">
+          <div class="table-head-row">
             <div>Post</div>
-            <div>Data</div>
+            <div class="col-lang">Idioma</div>
+            <div class="col-date">Status</div>
             <div>Tag</div>
             <div style="text-align:right">Ações</div>
           </div>
@@ -269,109 +374,341 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
       </div>
 
       <!-- EDITOR -->
-      <div class="view" id="viewNew">
+      <div class="view" id="viewEditor">
         <div class="view-header">
           <h2 class="view-title" id="editorTitle">Novo Post</h2>
         </div>
-        <div class="editor-grid">
+        <div class="editor-layout">
+          <!-- LEFT: content -->
           <div>
-            <div class="editor-field">
-              <label>Título</label>
-              <input class="editor-input" id="fTitle" placeholder="Título do post…" />
-            </div>
-            <div class="editor-field">
-              <label>Slug (nome do arquivo)</label>
-              <input class="editor-input" id="fSlug" placeholder="sprint-1-to-3" style="font-family:'JetBrains Mono',monospace;font-size:12px" />
-            </div>
-            <div class="editor-field">
-              <label>Resumo (excerpt)</label>
-              <input class="editor-input" id="fExcerpt" placeholder="Breve descrição do post…" />
-            </div>
-            <div class="editor-field">
-              <label>Conteúdo (Markdown)</label>
-              <div class="md-toolbar">
-                <button class="md-btn" onclick="mdInsert('**','**')"><b>B</b></button>
-                <button class="md-btn" onclick="mdInsert('*','*')"><i>I</i></button>
-                <button class="md-btn" onclick="mdInsert('\n## ','')">H2</button>
-                <button class="md-btn" onclick="mdInsert('\n### ','')">H3</button>
-                <button class="md-btn" onclick="mdInsert('\n- ','')">• Lista</button>
-                <button class="md-btn" onclick="mdInsert('\n> ','')">❝ Citação</button>
-                <button class="md-btn" onclick="mdInsert('`','`')">` Código</button>
-                <button class="md-btn" onclick="mdInsert('\n```\n','\n```')">⌥ Bloco</button>
-                <button class="md-btn" onclick="mdInsert('[texto](','url)')">🔗 Link</button>
-                <button class="md-btn" onclick="mdInsert('![alt](','url)')">🖼 Img</button>
+            <div class="editor-card">
+              <h4>Idioma do Post</h4>
+              <div class="lang-tabs" id="langTabs">
+                <button class="lang-tab active" data-lang="pt" onclick="switchLang('pt',this)">🇧🇷 PT</button>
+                <button class="lang-tab" data-lang="en" onclick="switchLang('en',this)">🇺🇸 EN</button>
+                <button class="lang-tab" data-lang="es" onclick="switchLang('es',this)">🇪🇸 ES</button>
+                <button class="lang-tab" data-lang="fr" onclick="switchLang('fr',this)">🇫🇷 FR</button>
+                <button class="lang-tab" data-lang="de" onclick="switchLang('de',this)">🇩🇪 DE</button>
               </div>
-              <textarea class="editor-textarea" id="fBody" placeholder="Escreva aqui em Markdown…"></textarea>
+              <div class="editor-field">
+                <label>Idioma Principal do Post</label>
+                <select class="editor-select" id="fPrimaryLang" onchange="updatePrimaryLang()">
+                  <option value="pt">🇧🇷 Português (PT)</option>
+                  <option value="en">🇺🇸 English (EN)</option>
+                  <option value="es">🇪🇸 Español (ES)</option>
+                  <option value="fr">🇫🇷 Français (FR)</option>
+                  <option value="de">🇩🇪 Deutsch (DE)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- PT panel -->
+            <div class="editor-card lang-panel active" id="panel-pt">
+              <h4>🇧🇷 Conteúdo em Português</h4>
+              <div class="editor-field">
+                <label>Título (PT)</label>
+                <input class="editor-input" id="fTitle-pt" placeholder="Título do post…" oninput="updateSlug();updateLangTab('pt')" />
+              </div>
+              <div class="editor-field">
+                <label>Resumo (PT)</label>
+                <input class="editor-input" id="fExcerpt-pt" placeholder="Breve descrição…" oninput="updateLangTab('pt')" />
+              </div>
+              <div class="editor-field">
+                <label>Conteúdo Markdown (PT)</label>
+                <div class="md-toolbar" data-target="fBody-pt">
+                  <button class="md-btn" onclick="mdInsert('fBody-pt','**','**')"><b>B</b></button>
+                  <button class="md-btn" onclick="mdInsert('fBody-pt','*','*')"><i>I</i></button>
+                  <button class="md-btn" onclick="mdInsert('fBody-pt','\n## ','')">H2</button>
+                  <button class="md-btn" onclick="mdInsert('fBody-pt','\n### ','')">H3</button>
+                  <button class="md-btn" onclick="mdInsert('fBody-pt','\n- ','')">• Lista</button>
+                  <button class="md-btn" onclick="mdInsert('fBody-pt','\n> ','')">❝</button>
+                  <button class="md-btn" onclick="mdInsert('fBody-pt','`','`')">` code</button>
+                  <button class="md-btn" onclick="mdInsert('fBody-pt','\n```\n','\n```')">⌥ bloco</button>
+                  <button class="md-btn" onclick="mdInsert('fBody-pt','[','](url)')">🔗</button>
+                  <button class="md-btn" onclick="mdInsert('fBody-pt','![alt](',')')">🖼</button>
+                </div>
+                <textarea class="editor-textarea" id="fBody-pt" placeholder="Escreva em Markdown…" oninput="updateLangTab('pt')"></textarea>
+              </div>
+            </div>
+
+            <!-- EN panel -->
+            <div class="editor-card lang-panel" id="panel-en">
+              <h4>🇺🇸 Content in English</h4>
+              <div class="editor-field">
+                <label>Title (EN)</label>
+                <input class="editor-input" id="fTitle-en" placeholder="Post title…" oninput="updateLangTab('en')" />
+              </div>
+              <div class="editor-field">
+                <label>Excerpt (EN)</label>
+                <input class="editor-input" id="fExcerpt-en" placeholder="Brief description…" oninput="updateLangTab('en')" />
+              </div>
+              <div class="editor-field">
+                <label>Markdown Content (EN)</label>
+                <div class="md-toolbar">
+                  <button class="md-btn" onclick="mdInsert('fBody-en','**','**')"><b>B</b></button>
+                  <button class="md-btn" onclick="mdInsert('fBody-en','*','*')"><i>I</i></button>
+                  <button class="md-btn" onclick="mdInsert('fBody-en','\n## ','')">H2</button>
+                  <button class="md-btn" onclick="mdInsert('fBody-en','\n### ','')">H3</button>
+                  <button class="md-btn" onclick="mdInsert('fBody-en','\n- ','')">• List</button>
+                  <button class="md-btn" onclick="mdInsert('fBody-en','\n> ','')">❝</button>
+                  <button class="md-btn" onclick="mdInsert('fBody-en','`','`')">` code</button>
+                  <button class="md-btn" onclick="mdInsert('fBody-en','\n```\n','\n```')">⌥ block</button>
+                  <button class="md-btn" onclick="mdInsert('fBody-en','[','](url)')">🔗</button>
+                  <button class="md-btn" onclick="mdInsert('fBody-en','![alt](',')')">🖼</button>
+                </div>
+                <textarea class="editor-textarea" id="fBody-en" placeholder="Write in Markdown…" oninput="updateLangTab('en')"></textarea>
+              </div>
+            </div>
+
+            <!-- ES panel -->
+            <div class="editor-card lang-panel" id="panel-es">
+              <h4>🇪🇸 Contenido en Español</h4>
+              <div class="editor-field">
+                <label>Título (ES)</label>
+                <input class="editor-input" id="fTitle-es" placeholder="Título del post…" oninput="updateLangTab('es')" />
+              </div>
+              <div class="editor-field">
+                <label>Resumen (ES)</label>
+                <input class="editor-input" id="fExcerpt-es" placeholder="Descripción breve…" oninput="updateLangTab('es')" />
+              </div>
+              <div class="editor-field">
+                <label>Contenido Markdown (ES)</label>
+                <div class="md-toolbar">
+                  <button class="md-btn" onclick="mdInsert('fBody-es','**','**')"><b>B</b></button>
+                  <button class="md-btn" onclick="mdInsert('fBody-es','*','*')"><i>I</i></button>
+                  <button class="md-btn" onclick="mdInsert('fBody-es','\n## ','')">H2</button>
+                  <button class="md-btn" onclick="mdInsert('fBody-es','\n### ','')">H3</button>
+                  <button class="md-btn" onclick="mdInsert('fBody-es','\n- ','')">• Lista</button>
+                  <button class="md-btn" onclick="mdInsert('fBody-es','\n> ','')">❝</button>
+                  <button class="md-btn" onclick="mdInsert('fBody-es','`','`')">` code</button>
+                  <button class="md-btn" onclick="mdInsert('fBody-es','\n```\n','\n```')">⌥ bloque</button>
+                  <button class="md-btn" onclick="mdInsert('fBody-es','[','](url)')">🔗</button>
+                  <button class="md-btn" onclick="mdInsert('fBody-es','![alt](',')')">🖼</button>
+                </div>
+                <textarea class="editor-textarea" id="fBody-es" placeholder="Escribe en Markdown…" oninput="updateLangTab('es')"></textarea>
+              </div>
+            </div>
+
+            <!-- FR panel -->
+            <div class="editor-card lang-panel" id="panel-fr">
+              <h4>🇫🇷 Contenu en Français</h4>
+              <div class="editor-field">
+                <label>Titre (FR)</label>
+                <input class="editor-input" id="fTitle-fr" placeholder="Titre du post…" oninput="updateLangTab('fr')" />
+              </div>
+              <div class="editor-field">
+                <label>Résumé (FR)</label>
+                <input class="editor-input" id="fExcerpt-fr" placeholder="Brève description…" oninput="updateLangTab('fr')" />
+              </div>
+              <div class="editor-field">
+                <label>Contenu Markdown (FR)</label>
+                <div class="md-toolbar">
+                  <button class="md-btn" onclick="mdInsert('fBody-fr','**','**')"><b>B</b></button>
+                  <button class="md-btn" onclick="mdInsert('fBody-fr','*','*')"><i>I</i></button>
+                  <button class="md-btn" onclick="mdInsert('fBody-fr','\n## ','')">H2</button>
+                  <button class="md-btn" onclick="mdInsert('fBody-fr','\n### ','')">H3</button>
+                  <button class="md-btn" onclick="mdInsert('fBody-fr','\n- ','')">• Liste</button>
+                  <button class="md-btn" onclick="mdInsert('fBody-fr','\n> ','')">❝</button>
+                  <button class="md-btn" onclick="mdInsert('fBody-fr','`','`')">` code</button>
+                  <button class="md-btn" onclick="mdInsert('fBody-fr','\n```\n','\n```')">⌥ bloc</button>
+                  <button class="md-btn" onclick="mdInsert('fBody-fr','[','](url)')">🔗</button>
+                  <button class="md-btn" onclick="mdInsert('fBody-fr','![alt](',')')">🖼</button>
+                </div>
+                <textarea class="editor-textarea" id="fBody-fr" placeholder="Écrivez en Markdown…" oninput="updateLangTab('fr')"></textarea>
+              </div>
+            </div>
+
+            <!-- DE panel -->
+            <div class="editor-card lang-panel" id="panel-de">
+              <h4>🇩🇪 Inhalt auf Deutsch</h4>
+              <div class="editor-field">
+                <label>Titel (DE)</label>
+                <input class="editor-input" id="fTitle-de" placeholder="Titel des Posts…" oninput="updateLangTab('de')" />
+              </div>
+              <div class="editor-field">
+                <label>Auszug (DE)</label>
+                <input class="editor-input" id="fExcerpt-de" placeholder="Kurze Beschreibung…" oninput="updateLangTab('de')" />
+              </div>
+              <div class="editor-field">
+                <label>Markdown-Inhalt (DE)</label>
+                <div class="md-toolbar">
+                  <button class="md-btn" onclick="mdInsert('fBody-de','**','**')"><b>B</b></button>
+                  <button class="md-btn" onclick="mdInsert('fBody-de','*','*')"><i>I</i></button>
+                  <button class="md-btn" onclick="mdInsert('fBody-de','\n## ','')">H2</button>
+                  <button class="md-btn" onclick="mdInsert('fBody-de','\n### ','')">H3</button>
+                  <button class="md-btn" onclick="mdInsert('fBody-de','\n- ','')">• Liste</button>
+                  <button class="md-btn" onclick="mdInsert('fBody-de','\n> ','')">❝</button>
+                  <button class="md-btn" onclick="mdInsert('fBody-de','`','`')">` code</button>
+                  <button class="md-btn" onclick="mdInsert('fBody-de','\n```\n','\n```')">⌥ Block</button>
+                  <button class="md-btn" onclick="mdInsert('fBody-de','[','](url)')">🔗</button>
+                  <button class="md-btn" onclick="mdInsert('fBody-de','![alt](',')')">🖼</button>
+                </div>
+                <textarea class="editor-textarea" id="fBody-de" placeholder="Schreiben Sie in Markdown…" oninput="updateLangTab('de')"></textarea>
+              </div>
             </div>
           </div>
 
+          <!-- RIGHT: settings -->
           <div>
-            <div class="editor-sidebar-card">
+            <div class="editor-card">
               <h4>Publicação</h4>
               <div class="editor-field">
-                <label>Tag / Categoria</label>
-                <select class="editor-select" id="fTag">
-                  <option value="update">🚀 Update</option>
-                  <option value="guide">📖 Guia</option>
-                  <option value="devlog">🛠 Devlog</option>
-                  <option value="news">📢 Notícia</option>
-                  <option value="release">🎉 Release</option>
-                </select>
+                <label>Slug (nome do arquivo)</label>
+                <input class="editor-input" id="fSlug" placeholder="meu-post-aqui" style="font-family:'JetBrains Mono',monospace;font-size:11px" />
               </div>
               <div class="editor-field">
-                <label>Data de Publicação</label>
+                <label>Tag / Categoria</label>
+                <select class="editor-select" id="fTag"></select>
+              </div>
+              <div class="editor-field">
+                <label>Status</label>
+                <select class="editor-select" id="fStatus" onchange="onStatusChange()">
+                  <option value="published">✅ Publicado</option>
+                  <option value="draft">📝 Rascunho</option>
+                  <option value="scheduled">🕐 Agendado</option>
+                </select>
+              </div>
+              <div class="editor-field" id="dateField">
+                <label id="dateFieldLabel">Data de Publicação</label>
                 <input class="editor-input" id="fDate" type="date" />
               </div>
-              <div class="editor-field" style="margin-bottom:0">
-                <label>Post em destaque?</label>
+              <div class="editor-field" id="schedTimeField" style="display:none">
+                <label>Hora do Agendamento</label>
+                <input class="editor-input" id="fSchedTime" type="time" value="12:00" />
+              </div>
+              <div class="editor-field">
+                <label>Post em Destaque?</label>
                 <select class="editor-select" id="fFeatured">
                   <option value="false">Não</option>
                   <option value="true">Sim (aparece primeiro)</option>
                 </select>
               </div>
-            </div>
-
-            <div class="editor-sidebar-card">
-              <h4>Mídia</h4>
               <div class="editor-field">
-                <label>URL do Banner</label>
-                <input class="editor-input" id="fBanner" placeholder="https://… ou ./img.png" oninput="previewBanner()" />
-                <img class="preview-banner" id="bannerPreview" src="" alt="Preview" />
-              </div>
-              <div class="editor-field" style="margin-bottom:0">
                 <label>Autor</label>
                 <input class="editor-input" id="fAuthor" placeholder="MMS Team" />
               </div>
             </div>
 
-            <div class="editor-sidebar-card">
-              <h4>Status</h4>
-              <div class="status-row"><div class="status-dot" style="background:var(--green)"></div><span class="status-label" id="statusLabel">Rascunho</span></div>
+            <!-- Banner upload -->
+            <div class="editor-card">
+              <h4>🖼 Banner do Post</h4>
+              <div class="img-upload-area" id="bannerUploadArea" ondragover="onDragOver(event,'banner')" ondragleave="onDragLeave('banner')" ondrop="onDrop(event,'banner')">
+                <input type="file" id="bannerFile" accept="image/*" onchange="onFileSelect(event,'banner')" />
+                <div class="img-upload-icon">🏞</div>
+                <div class="img-upload-text">Arraste uma imagem ou clique para selecionar<br/><span style="color:#333;font-size:10px">PNG, JPG, GIF, WebP — máx 5MB</span></div>
+              </div>
+              <div class="img-upload-progress" id="bannerProgress">
+                <div class="img-upload-status" id="bannerStatus">Enviando…</div>
+                <div class="img-upload-bar"><div class="img-upload-fill" id="bannerFill"></div></div>
+              </div>
+              <img class="img-preview" id="bannerPreview" src="" alt="Preview do banner" />
+              <div class="img-url-row">
+                <input type="text" id="fBannerUrl" placeholder="Ou cole uma URL de imagem" oninput="onBannerUrlInput()" />
+                <button class="btn-clear-img" onclick="clearImage('banner')">✕ Limpar</button>
+              </div>
+            </div>
+
+            <!-- Author photo upload -->
+            <div class="editor-card">
+              <h4>👤 Foto do Autor</h4>
+              <div class="img-upload-area" id="avatarUploadArea" ondragover="onDragOver(event,'avatar')" ondragleave="onDragLeave('avatar')" ondrop="onDrop(event,'avatar')">
+                <input type="file" id="avatarFile" accept="image/*" onchange="onFileSelect(event,'avatar')" />
+                <div class="img-upload-icon">👤</div>
+                <div class="img-upload-text">Foto do autor<br/><span style="color:#333;font-size:10px">Quadrada, PNG/JPG</span></div>
+              </div>
+              <div class="img-upload-progress" id="avatarProgress">
+                <div class="img-upload-status" id="avatarStatus">Enviando…</div>
+                <div class="img-upload-bar"><div class="img-upload-fill" id="avatarFill"></div></div>
+              </div>
+              <img class="img-preview" id="avatarPreview" src="" alt="Preview avatar" style="height:80px;width:80px;border-radius:50%;object-fit:cover" />
+              <div class="img-url-row">
+                <input type="text" id="fAvatarUrl" placeholder="Ou cole uma URL" oninput="onAvatarUrlInput()" />
+                <button class="btn-clear-img" onclick="clearImage('avatar')">✕ Limpar</button>
+              </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="editor-card">
+              <h4>Ações</h4>
+              <div class="status-row">
+                <div class="status-dot" id="statusDot" style="background:var(--amber)"></div>
+                <span class="status-label" id="statusLabel">Rascunho</span>
+              </div>
               <div class="editor-actions">
-                <button class="btn-save" id="btnSave" onclick="savePost()">💾 Publicar no GitHub</button>
-                <button class="btn-cancel" onclick="showView('posts', document.querySelector('.sidebar-btn'))">✕ Cancelar</button>
+                <button class="btn-preview-post" onclick="openPreview()">👁 Pré-visualizar</button>
+                <button class="btn-publish" id="btnPublish" onclick="savePost('published')">🚀 Publicar no GitHub</button>
+                <button class="btn-draft" id="btnDraft" onclick="savePost('draft')">📝 Salvar Rascunho</button>
+                <button class="btn-cancel-edit" onclick="showView('posts',document.getElementById('sb-posts'))">✕ Cancelar</button>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      <!-- TAGS MANAGER -->
+      <div class="view" id="viewTags">
+        <div class="view-header">
+          <h2 class="view-title">Tags Personalizadas</h2>
+        </div>
+        <div class="editor-card tags-manager">
+          <h4>Tags do Sistema</h4>
+          <div class="tags-grid">
+            <div class="tag-manage-item"><div class="tag-color" style="background:var(--amber)"></div><span>update</span></div>
+            <div class="tag-manage-item"><div class="tag-color" style="background:var(--green)"></div><span>guide</span></div>
+            <div class="tag-manage-item"><div class="tag-color" style="background:var(--red)"></div><span>devlog</span></div>
+            <div class="tag-manage-item"><div class="tag-color" style="background:var(--blue)"></div><span>news</span></div>
+            <div class="tag-manage-item"><div class="tag-color" style="background:var(--green-lt)"></div><span>release</span></div>
+          </div>
+        </div>
+        <div class="editor-card" style="margin-top:16px">
+          <h4>Tags Personalizadas</h4>
+          <p style="font-size:12px;color:var(--muted);margin-bottom:14px">Crie suas próprias tags para categorizar posts.</p>
+          <div class="tags-grid" id="customTagsGrid"></div>
+          <div class="add-tag-row">
+            <div>
+              <label style="font-size:10px;font-weight:700;color:#444;letter-spacing:.8px;text-transform:uppercase;display:block;margin-bottom:6px;font-family:'JetBrains Mono',monospace">Nome da tag</label>
+              <input type="text" id="newTagName" class="editor-input" style="width:160px" placeholder="ex: tutorial" maxlength="20" />
+            </div>
+            <div>
+              <label style="font-size:10px;font-weight:700;color:#444;letter-spacing:.8px;text-transform:uppercase;display:block;margin-bottom:6px;font-family:'JetBrains Mono',monospace">Cor</label>
+              <input type="color" id="newTagColor" value="#9b59b6" style="width:44px;height:36px;border-radius:7px;border:1px solid var(--border);background:var(--bg3);cursor:pointer;padding:2px" />
+            </div>
+            <div style="align-self:flex-end">
+              <button class="btn-primary" onclick="addCustomTag()">+ Adicionar Tag</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </main>
   </div>
 </div>
 
-<!-- ── DELETE MODAL ───────────────────────────────────────────────────────── -->
+<!-- PREVIEW OVERLAY -->
+<div class="preview-overlay" id="previewOverlay">
+  <div class="preview-bar">
+    <span class="preview-bar-title">👁 Pré-visualização</span>
+    <div class="preview-bar-lang" id="previewLangBtns"></div>
+    <button class="preview-close" onclick="closePreview()">✕ Fechar</button>
+  </div>
+  <div class="preview-iframe-wrap">
+    <div class="preview-content" id="previewContent"></div>
+  </div>
+</div>
+
+<!-- DELETE MODAL -->
 <div class="modal-overlay" id="deleteModal">
   <div class="modal">
     <h3>🗑 Deletar post?</h3>
     <p>Esta ação é <strong>irreversível</strong>. O arquivo será removido permanentemente do repositório GitHub.</p>
     <div class="modal-actions">
-      <button class="btn-cancel" style="width:auto;padding:9px 18px" onclick="closeDeleteModal()">Cancelar</button>
+      <button class="btn-cancel-edit" style="width:auto;padding:8px 16px" onclick="closeDeleteModal()">Cancelar</button>
       <button class="btn-confirm-del" id="btnConfirmDel" onclick="confirmDelete()">Deletar</button>
     </div>
   </div>
 </div>
 
-<!-- ── TOAST ──────────────────────────────────────────────────────────────── -->
+<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script>
@@ -379,333 +716,582 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
 const GITHUB_USER = 'minecraftmodstudio';
 const GITHUB_REPO = 'mmsblog';
 const POSTS_PATH  = 'posts';
+const IMAGES_PATH = 'images';
 
 // ─── STATE ────────────────────────────────────────────────────────────────────
-let ghToken    = null;
-let ghUser     = null;
-let allPosts   = [];
-let editingSlug    = null;
-let deletingSlug   = null;
-let deletingFileSha = null;
+let ghToken = null, ghUser = null;
+let allPosts = [], editingSlug = null;
+let deletingSlug = null, deletingFileSha = null;
+let activeLang = 'pt';
+let customTags = JSON.parse(localStorage.getItem('mms_custom_tags') || '[]');
+let bannerUrl = '', avatarUrl = '';
+let previewLang = 'pt';
 
 // ─── AUTH ─────────────────────────────────────────────────────────────────────
-function togglePATVisibility() {
-  const input = document.getElementById('patInput');
-  input.type = input.type === 'password' ? 'text' : 'password';
+function togglePATVis() {
+  const i = document.getElementById('patInput');
+  i.type = i.type === 'password' ? 'text' : 'password';
 }
-
 function loginWithPAT() {
   const pat = document.getElementById('patInput').value.trim();
-  if (!pat) { showToast('Cole seu token no campo acima.', 'error'); return; }
+  if (!pat) { showToast('Cole seu token acima.','error'); return; }
   ghToken = pat;
   sessionStorage.setItem('mms_gh_token', pat);
   verifyAndEnter();
 }
-
 async function verifyAndEnter() {
   try {
-    const res = await ghFetch('https://api.github.com/user');
-    if (!res.ok) throw new Error('invalid token');
-    ghUser = await res.json();
-
-    const colRes = await ghFetch(
-      `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/collaborators/${ghUser.login}`
-    );
-    if (colRes.status !== 204) {
-      showToast('Você não é colaborador deste repositório.', 'error');
-      ghToken = null; sessionStorage.removeItem('mms_gh_token');
-      return;
-    }
+    const r = await ghFetch('https://api.github.com/user');
+    if (!r.ok) throw new Error();
+    ghUser = await r.json();
+    const cr = await ghFetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/collaborators/${ghUser.login}`);
+    if (cr.status !== 204) { showToast('Não é colaborador deste repositório.','error'); ghToken=null; sessionStorage.removeItem('mms_gh_token'); return; }
     enterAdmin();
-  } catch(e) {
-    showToast('Token inválido ou sem permissão.', 'error');
-    ghToken = null; sessionStorage.removeItem('mms_gh_token');
-  }
+  } catch { showToast('Token inválido ou sem permissão.','error'); ghToken=null; sessionStorage.removeItem('mms_gh_token'); }
 }
-
 function enterAdmin() {
   document.getElementById('loginScreen').classList.remove('active');
   document.getElementById('adminScreen').classList.add('active');
   document.getElementById('userName').textContent  = ghUser.login;
   document.getElementById('userAvatar').src = ghUser.avatar_url;
+  populateTagSelects();
   loadPosts();
 }
-
 function logout() {
-  ghToken = null; ghUser = null;
-  sessionStorage.removeItem('mms_gh_token');
+  ghToken=null; ghUser=null; sessionStorage.removeItem('mms_gh_token');
   document.getElementById('adminScreen').classList.remove('active');
   document.getElementById('loginScreen').classList.add('active');
   document.getElementById('patInput').value = '';
 }
 
-// ─── GH API HELPER ────────────────────────────────────────────────────────────
+// ─── GH FETCH ─────────────────────────────────────────────────────────────────
 function ghFetch(url, opts={}) {
-  return fetch(url, {
-    ...opts,
-    headers: {
-      'Authorization': `token ${ghToken}`,
-      'Accept': 'application/vnd.github.v3+json',
-      ...(opts.headers||{})
-    }
-  });
+  return fetch(url, { ...opts, headers: { 'Authorization':`token ${ghToken}`, 'Accept':'application/vnd.github.v3+json', ...(opts.headers||{}) } });
 }
 
 // ─── LOAD POSTS ───────────────────────────────────────────────────────────────
 async function loadPosts() {
   try {
-    const res = await ghFetch(
-      `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${POSTS_PATH}`
-    );
-    if (!res.ok) {
-      if (res.status === 404) { allPosts = []; renderTable(); return; }
-      throw new Error();
-    }
-    const files = await res.json();
-    const mdFiles = files.filter(f => f.name.endsWith('.md'));
-    allPosts = await Promise.all(mdFiles.map(async f => {
-      const r   = await fetch(f.download_url);
-      const raw = await r.text();
-      const fm  = parseFrontmatter(raw);
-      return { slug: f.name.replace('.md',''), sha: f.sha, title: fm.title||f.name, date: fm.date||'', tag: fm.tag||'news', raw };
+    const r = await ghFetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${POSTS_PATH}`);
+    if (!r.ok) { if(r.status===404){ allPosts=[]; renderTable(); updateStats(); return; } throw new Error(); }
+    const files = await r.json();
+    const mds = files.filter(f => f.name.endsWith('.md'));
+    allPosts = await Promise.all(mds.map(async f => {
+      const raw = await (await fetch(f.download_url)).text();
+      const fm  = parseFM(raw);
+      return { slug:f.name.replace('.md',''), sha:f.sha, raw,
+        title:    fm['title-pt'] || fm.title || f.name.replace('.md',''),
+        date:     fm.date || '',
+        tag:      fm.tag  || 'news',
+        lang:     fm.lang || 'pt',
+        status:   fm.status || 'published',
+        featured: fm.featured === 'true',
+        fm };
     }));
-    allPosts.sort((a,b) => new Date(b.date) - new Date(a.date));
-    document.getElementById('statTotal').textContent = allPosts.length;
-    document.getElementById('statPub').textContent   = allPosts.length;
+    allPosts.sort((a,b) => new Date(b.date)-new Date(a.date));
+    updateStats();
     renderTable();
   } catch(e) {
-    document.getElementById('postsTableBody').innerHTML =
-      '<div class="empty-table" style="color:var(--red)">Erro ao carregar posts. Verifique as configurações.</div>';
+    document.getElementById('postsTableBody').innerHTML='<div class="empty-table" style="color:var(--red)">Erro ao carregar posts.</div>';
   }
+}
+
+function updateStats() {
+  const pub   = allPosts.filter(p=>getEffectiveStatus(p)==='published').length;
+  const draft = allPosts.filter(p=>getEffectiveStatus(p)==='draft').length;
+  const sched = allPosts.filter(p=>getEffectiveStatus(p)==='scheduled').length;
+  const langs = [...new Set(allPosts.map(p=>p.lang))].length;
+  document.getElementById('statTotal').textContent = allPosts.length;
+  document.getElementById('statPub').textContent   = pub;
+  document.getElementById('statDraft').textContent = draft;
+  document.getElementById('statSched').textContent = sched;
+  document.getElementById('statLangs').textContent = langs;
+}
+
+function getEffectiveStatus(p) {
+  if (p.status === 'scheduled') {
+    const schedDate = new Date(p.date + (p.fm.sched_time ? 'T'+p.fm.sched_time : ''));
+    return schedDate <= new Date() ? 'published' : 'scheduled';
+  }
+  return p.status || 'published';
 }
 
 function renderTable() {
-  const body = document.getElementById('postsTableBody');
-  if (!allPosts.length) { body.innerHTML = '<div class="empty-table">Nenhum post publicado ainda.</div>'; return; }
-  body.innerHTML = allPosts.map(p => `
-    <div class="table-row">
+  const q      = (document.getElementById('listSearch')?.value||'').toLowerCase();
+  const fLang  = document.getElementById('listFilterLang')?.value  || '';
+  const fStat  = document.getElementById('listFilterStatus')?.value || '';
+  const fTag   = document.getElementById('listFilterTag')?.value   || '';
+  const body   = document.getElementById('postsTableBody');
+
+  const filtered = allPosts.filter(p => {
+    if (fLang && p.lang !== fLang) return false;
+    if (fTag  && p.tag  !== fTag)  return false;
+    const es = getEffectiveStatus(p);
+    if (fStat && es !== fStat) return false;
+    if (q && !p.title.toLowerCase().includes(q) && !p.slug.includes(q)) return false;
+    return true;
+  });
+
+  if (!filtered.length) { body.innerHTML='<div class="empty-table">Nenhum post encontrado.</div>'; return; }
+
+  const langFlag = {pt:'🇧🇷',en:'🇺🇸',es:'🇪🇸',fr:'🇫🇷',de:'🇩🇪'};
+  body.innerHTML = filtered.map(p => {
+    const es = getEffectiveStatus(p);
+    const statusHtml = {
+      published:`<span class="status-badge published">Publicado</span>`,
+      draft:`<span class="status-badge draft">Rascunho</span>`,
+      scheduled:`<span class="status-badge scheduled">Agendado</span>`,
+    }[es] || '';
+    const tagClass = getAllTags().find(t=>t.value===p.tag)?.custom ? 'custom' : p.tag;
+    const tagHtml = `<span class="tag-pill ${tagClass}" style="${getCustomTagStyle(p.tag)}">${p.tag}</span>`;
+    return `<div class="table-data-row">
       <div>
         <div class="post-row-title">${p.title}</div>
-        <div class="post-row-slug">${p.slug}.md</div>
+        <div class="post-row-meta"><span>${p.slug}.md</span>${p.date?`<span>${p.date}</span>`:''}</div>
       </div>
-      <div class="post-row-date">${p.date||'—'}</div>
-      <div><span class="tag-pill ${p.tag}">${p.tag}</span></div>
+      <div class="col-lang"><span class="post-row-lang">${langFlag[p.lang]||''} ${(p.lang||'pt').toUpperCase()}</span></div>
+      <div class="col-date">${statusHtml}</div>
+      <div>${tagHtml}</div>
       <div class="row-actions">
-        <button class="btn-edit" onclick="editPost('${p.slug}')">Editar</button>
-        <button class="btn-del"  onclick="openDeleteModal('${p.slug}','${p.sha}')">Deletar</button>
+        <button class="btn-sm edit" onclick="editPost('${p.slug}')">Editar</button>
+        <button class="btn-sm preview" onclick="previewPost('${p.slug}')">Ver</button>
+        <button class="btn-sm del" onclick="openDeleteModal('${p.slug}','${p.sha}')">Del</button>
       </div>
-    </div>
-  `).join('');
+    </div>`;
+  }).join('');
 }
 
 // ─── EDITOR ───────────────────────────────────────────────────────────────────
+const LANGS = ['pt','en','es','fr','de'];
+
 function showView(view, btn) {
-  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-  document.querySelectorAll('.sidebar-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('view'+capitalize(view)).classList.add('active');
-  if (btn) btn.classList.add('active');
-  if (view === 'new') {
-    document.getElementById('editorTitle').textContent = 'Novo Post';
-    clearEditor();
-    editingSlug = null;
-  }
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.sidebar-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('view'+view.charAt(0).toUpperCase()+view.slice(1))?.classList.add('active');
+  if(btn) btn.classList.add('active');
+  if(view==='editor' && !editingSlug) { clearEditor(); document.getElementById('editorTitle').textContent='Novo Post'; }
+  if(view==='tags') renderCustomTags();
 }
 
-function capitalize(s) { return s.charAt(0).toUpperCase()+s.slice(1); }
+function newPost() {
+  editingSlug = null;
+  showView('editor', document.getElementById('sb-new'));
+  clearEditor();
+  document.getElementById('editorTitle').textContent = 'Novo Post';
+}
 
 function clearEditor() {
-  document.getElementById('fTitle').value    = '';
-  document.getElementById('fSlug').value     = '';
-  document.getElementById('fExcerpt').value  = '';
-  document.getElementById('fBody').value     = '';
-  document.getElementById('fTag').value      = 'update';
-  document.getElementById('fDate').value     = new Date().toISOString().slice(0,10);
-  document.getElementById('fFeatured').value = 'false';
-  document.getElementById('fBanner').value   = '';
-  document.getElementById('fAuthor').value   = ghUser?.login || 'MMS Team';
-  document.getElementById('bannerPreview').style.display = 'none';
+  LANGS.forEach(l => {
+    document.getElementById(`fTitle-${l}`).value   = '';
+    document.getElementById(`fExcerpt-${l}`).value = '';
+    document.getElementById(`fBody-${l}`).value    = '';
+  });
+  document.getElementById('fSlug').value    = '';
+  document.getElementById('fTag').value     = getAllTags()[0]?.value || 'update';
+  document.getElementById('fStatus').value  = 'published';
+  document.getElementById('fDate').value    = new Date().toISOString().slice(0,10);
+  document.getElementById('fFeatured').value= 'false';
+  document.getElementById('fAuthor').value  = ghUser?.login || 'MMS Team';
+  document.getElementById('fPrimaryLang').value = 'pt';
+  bannerUrl = ''; avatarUrl = '';
+  document.getElementById('fBannerUrl').value = '';
+  document.getElementById('fAvatarUrl').value = '';
+  document.getElementById('bannerPreview').style.display='none';
+  document.getElementById('avatarPreview').style.display='none';
   document.getElementById('statusLabel').textContent = 'Rascunho';
+  document.getElementById('statusDot').style.background = 'var(--amber)';
+  onStatusChange();
+  updateAllLangTabs();
+  switchLang('pt', document.querySelector('.lang-tab[data-lang="pt"]'));
 }
 
 function editPost(slug) {
-  const post = allPosts.find(p => p.slug === slug);
-  if (!post) return;
-  const fm = parseFrontmatter(post.raw);
+  const p = allPosts.find(x=>x.slug===slug);
+  if(!p) return;
   editingSlug = slug;
-  document.getElementById('editorTitle').textContent = 'Editar: ' + post.title;
-  document.getElementById('fTitle').value    = fm.title||'';
-  document.getElementById('fSlug').value     = slug;
-  document.getElementById('fExcerpt').value  = fm.excerpt||'';
-  document.getElementById('fBody').value     = fm._body||'';
-  document.getElementById('fTag').value      = fm.tag||'update';
-  document.getElementById('fDate').value     = fm.date||'';
-  document.getElementById('fFeatured').value = fm.featured||'false';
-  document.getElementById('fBanner').value   = fm.banner||'';
-  document.getElementById('fAuthor').value   = fm.author||'MMS Team';
-  document.getElementById('statusLabel').textContent = 'Editando';
-  previewBanner();
-  const newBtn = document.querySelector('.sidebar-btn:nth-child(2)');
-  showView('new', newBtn);
   document.getElementById('editorTitle').textContent = 'Editar Post';
+  showView('editor', document.getElementById('sb-new'));
+
+  const fm = p.fm;
+  LANGS.forEach(l => {
+    document.getElementById(`fTitle-${l}`).value   = fm[`title-${l}`]   || (l==='pt'?fm.title:'') || '';
+    document.getElementById(`fExcerpt-${l}`).value = fm[`excerpt-${l}`] || (l==='pt'?fm.excerpt:'') || '';
+    document.getElementById(`fBody-${l}`).value    = fm[`_body_${l}`]   || (l==='pt'?fm._body:'') || '';
+  });
+
+  document.getElementById('fSlug').value     = slug;
+  document.getElementById('fTag').value      = fm.tag      || 'news';
+  document.getElementById('fStatus').value   = fm.status   || 'published';
+  document.getElementById('fDate').value     = fm.date     || new Date().toISOString().slice(0,10);
+  document.getElementById('fFeatured').value = fm.featured || 'false';
+  document.getElementById('fAuthor').value   = fm.author   || 'MMS Team';
+  document.getElementById('fPrimaryLang').value = fm.lang  || 'pt';
+
+  bannerUrl = fm.banner || '';
+  avatarUrl = fm.avatar || '';
+  document.getElementById('fBannerUrl').value = bannerUrl;
+  document.getElementById('fAvatarUrl').value = avatarUrl;
+  if(bannerUrl){ const img=document.getElementById('bannerPreview'); img.src=bannerUrl; img.style.display='block'; }
+  if(avatarUrl){ const img=document.getElementById('avatarPreview'); img.src=avatarUrl; img.style.display='block'; }
+
+  onStatusChange();
+  updateAllLangTabs();
+  switchLang(fm.lang||'pt', document.querySelector(`.lang-tab[data-lang="${fm.lang||'pt'}"]`));
 }
 
-function buildMarkdown() {
-  const title    = document.getElementById('fTitle').value.trim();
-  const slug     = document.getElementById('fSlug').value.trim();
-  const excerpt  = document.getElementById('fExcerpt').value.trim();
-  const body     = document.getElementById('fBody').value.trim();
-  const tag      = document.getElementById('fTag').value;
-  const date     = document.getElementById('fDate').value;
-  const featured = document.getElementById('fFeatured').value;
-  const banner   = document.getElementById('fBanner').value.trim();
-  const author   = document.getElementById('fAuthor').value.trim() || 'MMS Team';
-  return { slug, content: `---\ntitle: "${title}"\ndate: ${date}\ntag: ${tag}\nauthor: ${author}\nexcerpt: "${excerpt}"\nbanner: ${banner}\nfeatured: ${featured}\n---\n\n${body}` };
+function switchLang(lang, btn) {
+  activeLang = lang;
+  document.querySelectorAll('.lang-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.lang-panel').forEach(p=>p.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  document.getElementById(`panel-${lang}`)?.classList.add('active');
 }
 
-async function savePost() {
-  const { slug, content } = buildMarkdown();
-  if (!slug || !document.getElementById('fTitle').value.trim()) {
-    showToast('Título e slug são obrigatórios.', 'error'); return;
+function updateLangTab(lang) {
+  const tab = document.querySelector(`.lang-tab[data-lang="${lang}"]`);
+  if(!tab) return;
+  const hasContent = document.getElementById(`fTitle-${lang}`)?.value.trim() || document.getElementById(`fBody-${lang}`)?.value.trim();
+  tab.classList.toggle('has-content', !!hasContent);
+}
+
+function updateAllLangTabs() { LANGS.forEach(l=>updateLangTab(l)); }
+
+function updateSlug() {
+  if(editingSlug) return;
+  const title = document.getElementById('fTitle-pt').value || document.getElementById('fTitle-en').value || '';
+  document.getElementById('fSlug').value = title.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9\s-]/g,'').trim().replace(/\s+/g,'-');
+}
+
+function updatePrimaryLang() {
+  const lang = document.getElementById('fPrimaryLang').value;
+  switchLang(lang, document.querySelector(`.lang-tab[data-lang="${lang}"]`));
+}
+
+function onStatusChange() {
+  const s = document.getElementById('fStatus').value;
+  document.getElementById('schedTimeField').style.display = s==='scheduled' ? 'block' : 'none';
+  const dot = document.getElementById('statusDot');
+  const lbl = document.getElementById('statusLabel');
+  if(s==='published'){ dot.style.background='var(--green)'; lbl.textContent='Publicado'; }
+  else if(s==='draft'){ dot.style.background='var(--amber)'; lbl.textContent='Rascunho'; }
+  else { dot.style.background='var(--blue)'; lbl.textContent='Agendado'; }
+}
+
+// ─── BUILD FRONTMATTER ────────────────────────────────────────────────────────
+function buildContent() {
+  const primaryLang = document.getElementById('fPrimaryLang').value;
+  const slug    = document.getElementById('fSlug').value.trim();
+  const tag     = document.getElementById('fTag').value;
+  const status  = document.getElementById('fStatus').value;
+  const date    = document.getElementById('fDate').value;
+  const schedT  = document.getElementById('fSchedTime').value;
+  const featured= document.getElementById('fFeatured').value;
+  const author  = (document.getElementById('fAuthor').value.trim()) || 'MMS Team';
+
+  let fm = `---\n`;
+  fm += `lang: ${primaryLang}\n`;
+  fm += `tag: ${tag}\n`;
+  fm += `status: ${status}\n`;
+  fm += `date: ${date}\n`;
+  if(status==='scheduled') fm += `sched_time: ${schedT}\n`;
+  fm += `featured: ${featured}\n`;
+  fm += `author: ${author}\n`;
+  if(bannerUrl) fm += `banner: ${bannerUrl}\n`;
+  if(avatarUrl) fm += `avatar: ${avatarUrl}\n`;
+
+  LANGS.forEach(l => {
+    const t = document.getElementById(`fTitle-${l}`).value.trim();
+    const e = document.getElementById(`fExcerpt-${l}`).value.trim();
+    if(t) fm += `title-${l}: "${t}"\n`;
+    if(e) fm += `excerpt-${l}: "${e}"\n`;
+  });
+  fm += `---\n`;
+
+  // bodies per language as sections
+  LANGS.forEach(l => {
+    const body = document.getElementById(`fBody-${l}`).value.trim();
+    if(body) fm += `\n<!-- lang:${l} -->\n${body}\n`;
+  });
+
+  return { slug, content: fm };
+}
+
+// ─── SAVE ─────────────────────────────────────────────────────────────────────
+async function savePost(forceStatus) {
+  if(forceStatus) document.getElementById('fStatus').value = forceStatus;
+  const { slug, content } = buildContent();
+  if(!slug || !document.getElementById('fTitle-pt').value.trim()) {
+    showToast('Slug e Título (PT) são obrigatórios.','error'); return;
   }
-  const btn = document.getElementById('btnSave');
-  btn.disabled = true; btn.textContent = '⏳ Publicando…';
-  document.getElementById('statusLabel').textContent = 'Publicando…';
+  const btnP = document.getElementById('btnPublish');
+  const btnD = document.getElementById('btnDraft');
+  btnP.disabled=btnD.disabled=true;
+  btnP.textContent='⏳ Salvando…';
+  document.getElementById('statusLabel').textContent='Salvando…';
   try {
     const encoded = btoa(unescape(encodeURIComponent(content)));
-    const path    = `${POSTS_PATH}/${slug}.md`;
-    const apiUrl  = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${path}`;
-
-    let sha = undefined;
-    if (editingSlug) {
-      const existing = allPosts.find(p => p.slug === slug);
-      if (existing) sha = existing.sha;
-    }
-
-    const body = {
-      message: editingSlug ? `update: ${slug}` : `post: ${slug}`,
-      content: encoded,
-      ...(sha ? { sha } : {})
-    };
-
-    const res = await ghFetch(apiUrl, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
-    });
-    if (!res.ok) { const err = await res.json(); throw new Error(err.message||'API error'); }
-
-    showToast('✅ Post publicado com sucesso!', 'success');
-    document.getElementById('statusLabel').textContent = 'Publicado';
+    const apiUrl  = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${POSTS_PATH}/${slug}.md`;
+    let sha;
+    if(editingSlug) { const ep = allPosts.find(p=>p.slug===slug); if(ep) sha=ep.sha; }
+    const body = { message: editingSlug?`update: ${slug}`:`post: ${slug}`, content:encoded, ...(sha?{sha}:{}) };
+    const r = await ghFetch(apiUrl,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    if(!r.ok) { const e=await r.json(); throw new Error(e.message||'API error'); }
+    const status = document.getElementById('fStatus').value;
+    showToast(status==='draft'?'📝 Rascunho salvo!':status==='scheduled'?'🕐 Post agendado!':'✅ Publicado com sucesso!','success');
+    onStatusChange();
     await loadPosts();
-    setTimeout(() => showView('posts', document.querySelector('.sidebar-btn')), 1200);
+    setTimeout(()=>showView('posts',document.getElementById('sb-posts')),1200);
   } catch(e) {
-    showToast('Erro ao publicar: ' + e.message, 'error');
-    document.getElementById('statusLabel').textContent = 'Erro';
+    showToast('Erro: '+e.message,'error');
+    document.getElementById('statusLabel').textContent='Erro';
   } finally {
-    btn.disabled = false; btn.textContent = '💾 Publicar no GitHub';
+    btnP.disabled=btnD.disabled=false;
+    btnP.textContent='🚀 Publicar no GitHub';
   }
+}
+
+// ─── IMAGE UPLOAD ─────────────────────────────────────────────────────────────
+function onDragOver(e, type) { e.preventDefault(); document.getElementById(`${type}UploadArea`).classList.add('dragover'); }
+function onDragLeave(type)   { document.getElementById(`${type}UploadArea`).classList.remove('dragover'); }
+function onDrop(e, type)     { e.preventDefault(); onDragLeave(type); const f=e.dataTransfer.files[0]; if(f) uploadImage(f,type); }
+function onFileSelect(e, type){ const f=e.target.files[0]; if(f) uploadImage(f,type); }
+
+async function uploadImage(file, type) {
+  if(file.size > 5*1024*1024) { showToast('Imagem muito grande (máx 5MB).','error'); return; }
+  const ext   = file.name.split('.').pop().toLowerCase();
+  const ts    = Date.now();
+  const fname = `${type}-${ts}.${ext}`;
+  const path  = `${IMAGES_PATH}/${fname}`;
+  const prog  = document.getElementById(`${type}Progress`);
+  const fill  = document.getElementById(`${type}Fill`);
+  const stat  = document.getElementById(`${type}Status`);
+  prog.style.display='block'; fill.style.width='30%'; stat.textContent='Lendo arquivo…';
+
+  try {
+    const b64 = await fileToBase64(file);
+    fill.style.width='60%'; stat.textContent='Enviando para GitHub…';
+    const r = await ghFetch(
+      `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${path}`,
+      { method:'PUT', headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({ message:`img: ${fname}`, content:b64 }) }
+    );
+    if(!r.ok) { const e=await r.json(); throw new Error(e.message||'Upload error'); }
+    fill.style.width='100%'; stat.textContent='Upload concluído!';
+    const url = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/${path}`;
+    if(type==='banner'){
+      bannerUrl = url;
+      document.getElementById('fBannerUrl').value = url;
+      const img=document.getElementById('bannerPreview'); img.src=url; img.style.display='block';
+    } else {
+      avatarUrl = url;
+      document.getElementById('fAvatarUrl').value = url;
+      const img=document.getElementById('avatarPreview'); img.src=url; img.style.display='block';
+    }
+    setTimeout(()=>{ prog.style.display='none'; fill.style.width='0%'; },2000);
+    showToast(`✅ Imagem enviada!`,'success');
+  } catch(e) {
+    prog.style.display='none'; fill.style.width='0%';
+    showToast('Erro no upload: '+e.message,'error');
+  }
+}
+
+function fileToBase64(file) {
+  return new Promise((res,rej)=>{
+    const r=new FileReader();
+    r.onload=()=>res(r.result.split(',')[1]);
+    r.onerror=rej;
+    r.readAsDataURL(file);
+  });
+}
+
+function onBannerUrlInput() { bannerUrl=document.getElementById('fBannerUrl').value.trim(); const img=document.getElementById('bannerPreview'); if(bannerUrl){img.src=bannerUrl;img.style.display='block';}else img.style.display='none'; }
+function onAvatarUrlInput() { avatarUrl=document.getElementById('fAvatarUrl').value.trim(); const img=document.getElementById('avatarPreview'); if(avatarUrl){img.src=avatarUrl;img.style.display='block';}else img.style.display='none'; }
+function clearImage(type) {
+  if(type==='banner'){ bannerUrl=''; document.getElementById('fBannerUrl').value=''; document.getElementById('bannerPreview').style.display='none'; document.getElementById('bannerFile').value=''; }
+  else { avatarUrl=''; document.getElementById('fAvatarUrl').value=''; document.getElementById('avatarPreview').style.display='none'; document.getElementById('avatarFile').value=''; }
+}
+
+// ─── PREVIEW ──────────────────────────────────────────────────────────────────
+function openPreview() {
+  const overlay = document.getElementById('previewOverlay');
+  overlay.classList.add('open');
+  const pLangs = LANGS.filter(l => document.getElementById(`fTitle-${l}`)?.value.trim() || document.getElementById(`fBody-${l}`)?.value.trim());
+  if(!pLangs.length) pLangs.push('pt');
+  previewLang = pLangs[0];
+  const btns = document.getElementById('previewLangBtns');
+  const flags={pt:'🇧🇷',en:'🇺🇸',es:'🇪🇸',fr:'🇫🇷',de:'🇩🇪'};
+  btns.innerHTML = pLangs.map(l=>`<button class="${l===previewLang?'active':''}" onclick="setPreviewLang('${l}')">${flags[l]} ${l.toUpperCase()}</button>`).join('');
+  renderPreview();
+}
+function closePreview() { document.getElementById('previewOverlay').classList.remove('open'); }
+function setPreviewLang(l) {
+  previewLang=l;
+  document.querySelectorAll('.preview-bar-lang button').forEach(b=>b.classList.toggle('active',b.textContent.toLowerCase().includes(l)));
+  renderPreview();
+}
+function renderPreview() {
+  const l  = previewLang;
+  const title   = document.getElementById(`fTitle-${l}`)?.value || document.getElementById('fTitle-pt').value || '';
+  const excerpt = document.getElementById(`fExcerpt-${l}`)?.value || '';
+  const body    = document.getElementById(`fBody-${l}`)?.value || '';
+  const tag     = document.getElementById('fTag')?.value || 'news';
+  const banner  = bannerUrl;
+  const tagColor= {update:'var(--amber)',guide:'var(--green)',devlog:'var(--red)',news:'var(--blue)',release:'var(--green-lt)'}[tag]||'var(--purple)';
+  const pc = document.getElementById('previewContent');
+  pc.innerHTML = `
+    <div class="preview-post-header">
+      <div style="margin-bottom:14px"><span class="preview-post-tag" style="background:${tagColor}22;color:${tagColor};border:1px solid ${tagColor}44">${tag}</span></div>
+      <h1 class="preview-post-title">${title||'(sem título)'}</h1>
+      ${excerpt?`<p class="preview-post-excerpt">${excerpt}</p>`:''}
+    </div>
+    ${banner?`<div class="preview-banner-img"><img src="${banner}" alt="banner" /></div>`:''}
+    <div class="preview-post-body">${parseMarkdown(body)}</div>
+  `;
+}
+
+function previewPost(slug) {
+  editPost(slug);
+  setTimeout(openPreview, 100);
+}
+
+// ─── TAGS ─────────────────────────────────────────────────────────────────────
+function getAllTags() {
+  const base = [
+    {value:'update',label:'Update',color:'var(--amber)',custom:false},
+    {value:'guide', label:'Guide', color:'var(--green)',custom:false},
+    {value:'devlog',label:'Devlog',color:'var(--red)',  custom:false},
+    {value:'news',  label:'News',  color:'var(--blue)', custom:false},
+    {value:'release',label:'Release',color:'var(--green-lt)',custom:false},
+  ];
+  return [...base, ...customTags.map(t=>({...t,custom:true}))];
+}
+
+function getCustomTagStyle(tagValue) {
+  const ct = customTags.find(t=>t.value===tagValue);
+  return ct ? `background:${ct.color}22;color:${ct.color};border-color:${ct.color}44` : '';
+}
+
+function populateTagSelects() {
+  const sel = document.getElementById('fTag');
+  const tags = getAllTags();
+  sel.innerHTML = tags.map(t=>`<option value="${t.value}">${t.label}</option>`).join('');
+  const filterSel = document.getElementById('listFilterTag');
+  if(filterSel) filterSel.innerHTML = `<option value="">Todas tags</option>`+tags.map(t=>`<option value="${t.value}">${t.label}</option>`).join('');
+}
+
+function renderCustomTags() {
+  const grid = document.getElementById('customTagsGrid');
+  if(!customTags.length){ grid.innerHTML='<span style="font-size:12px;color:var(--muted)">Nenhuma tag personalizada ainda.</span>'; return; }
+  grid.innerHTML = customTags.map((t,i)=>`
+    <div class="tag-manage-item">
+      <div class="tag-color" style="background:${t.color}"></div>
+      <span>${t.label}</span>
+      <span style="font-size:10px;color:var(--muted)">(${t.value})</span>
+      <button onclick="removeCustomTag(${i})">✕</button>
+    </div>`).join('');
+}
+
+function addCustomTag() {
+  const name = document.getElementById('newTagName').value.trim().toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'');
+  const color= document.getElementById('newTagColor').value;
+  if(!name){ showToast('Digite um nome para a tag.','error'); return; }
+  if(getAllTags().find(t=>t.value===name)){ showToast('Tag já existe.','warning'); return; }
+  customTags.push({value:name,label:name.charAt(0).toUpperCase()+name.slice(1),color,custom:true});
+  localStorage.setItem('mms_custom_tags',JSON.stringify(customTags));
+  document.getElementById('newTagName').value='';
+  populateTagSelects();
+  renderCustomTags();
+  showToast(`Tag "${name}" criada!`,'success');
+}
+
+function removeCustomTag(i) {
+  customTags.splice(i,1);
+  localStorage.setItem('mms_custom_tags',JSON.stringify(customTags));
+  populateTagSelects();
+  renderCustomTags();
 }
 
 // ─── DELETE ───────────────────────────────────────────────────────────────────
-function openDeleteModal(slug, sha) {
-  deletingSlug = slug; deletingFileSha = sha;
-  document.getElementById('deleteModal').classList.add('open');
-}
-
-function closeDeleteModal() {
-  deletingSlug = null; deletingFileSha = null;
-  document.getElementById('deleteModal').classList.remove('open');
-}
-
+function openDeleteModal(slug,sha){ deletingSlug=slug; deletingFileSha=sha; document.getElementById('deleteModal').classList.add('open'); }
+function closeDeleteModal(){ deletingSlug=null; deletingFileSha=null; document.getElementById('deleteModal').classList.remove('open'); }
 async function confirmDelete() {
-  const btn = document.getElementById('btnConfirmDel');
-  btn.disabled = true; btn.textContent = 'Deletando…';
+  const btn=document.getElementById('btnConfirmDel');
+  btn.disabled=true; btn.textContent='Deletando…';
   try {
-    const res = await ghFetch(
-      `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${POSTS_PATH}/${deletingSlug}.md`,
-      {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: `delete: ${deletingSlug}`, sha: deletingFileSha })
-      }
-    );
-    if (!res.ok) throw new Error();
-    showToast('Post deletado.', 'info');
-    closeDeleteModal();
-    await loadPosts();
-  } catch(e) {
-    showToast('Erro ao deletar o post.', 'error');
-  } finally {
-    btn.disabled = false; btn.textContent = 'Deletar';
-  }
+    const r=await ghFetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${POSTS_PATH}/${deletingSlug}.md`,
+      {method:'DELETE',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:`delete: ${deletingSlug}`,sha:deletingFileSha})});
+    if(!r.ok) throw new Error();
+    showToast('Post deletado.','info'); closeDeleteModal(); await loadPosts();
+  } catch{ showToast('Erro ao deletar.','error'); }
+  finally{ btn.disabled=false; btn.textContent='Deletar'; }
 }
 
 // ─── MARKDOWN TOOLBAR ─────────────────────────────────────────────────────────
-function mdInsert(before, after) {
-  const ta    = document.getElementById('fBody');
-  const start = ta.selectionStart;
-  const end   = ta.selectionEnd;
-  const selected = ta.value.substring(start, end);
-  ta.value = ta.value.substring(0,start) + before + selected + after + ta.value.substring(end);
-  ta.focus();
-  ta.setSelectionRange(start+before.length, start+before.length+selected.length);
+function mdInsert(id, before, after) {
+  const ta=document.getElementById(id);
+  const s=ta.selectionStart, e=ta.selectionEnd, sel=ta.value.substring(s,e);
+  ta.value=ta.value.substring(0,s)+before+sel+after+ta.value.substring(e);
+  ta.focus(); ta.setSelectionRange(s+before.length,s+before.length+sel.length);
 }
 
-// ─── HELPERS ──────────────────────────────────────────────────────────────────
-function parseFrontmatter(raw) {
+// ─── MARKDOWN PARSER ──────────────────────────────────────────────────────────
+function parseMarkdown(md) {
+  return md
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/^#{6}\s+(.+)$/gm,'<h6>$1</h6>').replace(/^#{5}\s+(.+)$/gm,'<h5>$1</h5>')
+    .replace(/^#{4}\s+(.+)$/gm,'<h4>$1</h4>').replace(/^#{3}\s+(.+)$/gm,'<h3>$1</h3>')
+    .replace(/^#{2}\s+(.+)$/gm,'<h2>$1</h2>').replace(/^#{1}\s+(.+)$/gm,'<h1>$1</h1>')
+    .replace(/\*\*\*(.+?)\*\*\*/g,'<strong><em>$1</em></strong>')
+    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\*(.+?)\*/g,'<em>$1</em>')
+    .replace(/```[\w]*\n([\s\S]*?)```/g,'<pre><code>$1</code></pre>')
+    .replace(/`([^`]+)`/g,'<code>$1</code>')
+    .replace(/!\[([^\]]*)\]\(([^)]+)\)/g,'<img src="$2" alt="$1" style="max-width:100%;border-radius:8px" />')
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>')
+    .replace(/^---+$/gm,'<hr />')
+    .replace(/^&gt;\s+(.+)$/gm,'<blockquote>$1</blockquote>')
+    .replace(/^[\*\-]\s+(.+)$/gm,'<li>$1</li>').replace(/(<li>.*<\/li>\n?)+/g,'<ul>$&</ul>')
+    .replace(/^\d+\.\s+(.+)$/gm,'<li>$1</li>')
+    .replace(/^(?!<[hupblt]).+$/gm, l=>l.trim()?`<p>${l}</p>`:'')
+    .replace(/\n{3,}/g,'\n\n');
+}
+
+// ─── FRONTMATTER PARSER ───────────────────────────────────────────────────────
+function parseFM(raw) {
   const fm = {};
   const match = raw.match(/^---\n([\s\S]*?)\n---/);
-  if (match) {
+  if(match) {
     match[1].split('\n').forEach(line => {
-      const [key,...val] = line.split(':');
-      if (key) fm[key.trim()] = val.join(':').trim().replace(/^["']|["']$/g,'');
+      const [key,...val]=line.split(':');
+      if(key) fm[key.trim()]=val.join(':').trim().replace(/^["']|["']$/g,'');
     });
-    fm._body = raw.slice(match[0].length).trim();
-  } else { fm._body = raw; }
+    // parse per-lang bodies
+    const rest = raw.slice(match[0].length);
+    const langSections = rest.split(/\n<!-- lang:(\w+) -->\n/);
+    // first element is empty or fallback body
+    fm._body = langSections[0].trim();
+    for(let i=1;i<langSections.length;i+=2) {
+      const lang=langSections[i], body=(langSections[i+1]||'').trim();
+      fm[`_body_${lang}`] = body;
+    }
+  } else {
+    fm._body = raw;
+  }
   return fm;
 }
 
-function previewBanner() {
-  const url = document.getElementById('fBanner').value.trim();
-  const img = document.getElementById('bannerPreview');
-  if (url) { img.src = url; img.style.display = 'block'; }
-  else { img.style.display = 'none'; }
-}
-
-function showToast(msg, type='success') {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.className = `toast show ${type}`;
-  setTimeout(() => t.classList.remove('show'), 3500);
+// ─── TOAST ────────────────────────────────────────────────────────────────────
+function showToast(msg,type='success') {
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.className=`toast show ${type}`;
+  setTimeout(()=>t.classList.remove('show'),3500);
 }
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', () => {
-  // Auto-generate slug from title
-  const titleInput = document.getElementById('fTitle');
-  if (titleInput) {
-    titleInput.addEventListener('input', () => {
-      if (!editingSlug) {
-        document.getElementById('fSlug').value = titleInput.value
-          .toLowerCase()
-          .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
-          .replace(/[^a-z0-9\s-]/g,'')
-          .trim().replace(/\s+/g,'-');
-      }
-    });
-  }
-
-  // Set today's date
-  const dateInput = document.getElementById('fDate');
-  if (dateInput) dateInput.value = new Date().toISOString().slice(0,10);
-
-  // Enter key submits PAT
-  document.getElementById('patInput').addEventListener('keydown', e => {
-    if (e.key === 'Enter') loginWithPAT();
-  });
-
-  // Restore session
+document.addEventListener('DOMContentLoaded',()=>{
+  document.getElementById('patInput').addEventListener('keydown',e=>{ if(e.key==='Enter') loginWithPAT(); });
+  document.getElementById('fDate').value = new Date().toISOString().slice(0,10);
   const stored = sessionStorage.getItem('mms_gh_token');
-  if (stored) { ghToken = stored; verifyAndEnter(); }
+  if(stored){ ghToken=stored; verifyAndEnter(); }
 });
 </script>
 </body>
