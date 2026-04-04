@@ -4,7 +4,7 @@ tag: guide
 status: published
 date: 2026-04-04
 featured: false
-author: minecraftmodstudio
+author: Minecraft Mod Studio
 avatar: https://raw.githubusercontent.com/minecraftmodstudio/mmsblog/main/mmslogosimbolodc.png
 title-pt: "Como o Minecraft Mod Studio funciona"
 ---
