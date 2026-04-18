@@ -4,18 +4,17 @@ tag: devlog
 status: published
 date: 2026-04-04
 featured: true
-author: Minecraft Mod Studio
-banner: https://philosophical-red-f8kswkjfn4.edgeone.app/BlogBannerMMS.png
+author: ModlyStudio
 title-pt: "Sprint 1 to 3"
-excerpt-pt: "Os três primeiros sprints do Minecraft Mod Studio estabelecem a base do aplicativo, incluindo interface, personalização e sistemas inicais para criação de Resource Packs sem programação."
+excerpt-pt: "Os três primeiros sprints do Modly estabelecem a base do aplicativo, incluindo interface, personalização e sistemas inicais para criação de Resource Packs sem programação."
 title-en: "Sprint 1 to 3"
-excerpt-en: "The first three sprints of Minecraft Mod Studio establish the foundation of the application, including interface development, customization features, and core systems for creating Resource Packs without coding."
+excerpt-en: "The first three sprints of Modly establish the foundation of the application, including interface development, customization features, and core systems for creating Resource Packs without coding."
 ---
 
 <!-- lang:pt -->
-## Sprint 1 ao 3 — Primeira Versão do Minecraft Mod Studio
+## Sprint 1 ao 3 — Primeira Versão do Modly
 
-Temos o prazer de apresentar o progresso inicial do **Minecraft Mod Studio**. Com a conclusão dos três primeiros sprints, a base da primeira versão do aplicativo foi estabelecida.
+Temos o prazer de apresentar o progresso inicial do **Modly**. Com a conclusão dos três primeiros sprints, a base da primeira versão do aplicativo foi estabelecida.
 
 ### Sprint 1 — Interface
 O primeiro sprint foi dedicado ao desenvolvimento da interface principal do sistema. Foi criada uma estrutura visual organizada e funcional, com o objetivo de proporcionar uma navegação intuitiva.
@@ -57,12 +56,12 @@ Nos próximos sprints, estão planejadas as seguintes melhorias:
 
 ---
 
-Acompanhe as próximas atualizações do Minecraft Mod Studio.
+Acompanhe as próximas atualizações do Modly.
 
 <!-- lang:en -->
-## Sprint 1 to 3 — First Version of Minecraft Mod Studio
+## Sprint 1 to 3 — First Version of Modly
 
-We are pleased to present the initial progress of **Minecraft Mod Studio**. With the completion of the first three sprints, the foundation of the first version of the application has been established.
+We are pleased to present the initial progress of **Modly**. With the completion of the first three sprints, the foundation of the first version of the application has been established.
 
 ### Sprint 1 — Interface
 The first sprint focused on developing the main interface of the system. A structured and functional visual layout was created to ensure intuitive navigation.
@@ -104,4 +103,4 @@ In the upcoming sprints, we plan to introduce:
 
 ---
 
-Stay tuned for future updates as Minecraft Mod Studio continues to evolve.
+Stay tuned for future updates as Modly continues to evolve.
