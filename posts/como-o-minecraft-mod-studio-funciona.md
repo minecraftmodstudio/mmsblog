@@ -6,11 +6,11 @@ date: 2026-04-04
 featured: false
 author: Minecraft Mod Studio
 avatar: https://raw.githubusercontent.com/minecraftmodstudio/mmsblog/main/mmslogosimbolodc.png
-title-pt: "Como o Minecraft Mod Studio funciona"
+title-pt: "Como o Modly funciona"
 ---
 
 <!-- lang:pt -->
-**O Minecraft Mod Studio** foi criado para tornar a criação de Resource Packs acessível a qualquer pessoa, mesmo sem experiência com programação ou edição de arquivos JSON.
+**O Modly** foi criado para tornar a criação de Resource Packs acessível a qualquer pessoa, mesmo sem experiência com programação ou edição de arquivos JSON.
 
 ## Como funciona na prática:
 
