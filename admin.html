@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Admin - Minecraft Mod Studio</title>
+<title>Admin — MMS Blog</title>
 <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/minecraftmodstudio/mmsblog/main/mmslogosimbolodc.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -265,7 +265,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-
     <div class="login-logo">
       <img src="https://raw.githubusercontent.com/minecraftmodstudio/mmsblog/main/mmslogosimbolodc.png" alt="MMS" />
       <div>
-        <div class="login-logo-main">Minecraft Mod Studio</div>
+        <div class="login-logo-main">Modly</div>
         <div class="login-logo-sub">Blog Admin</div>
       </div>
     </div>
@@ -281,6 +281,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-
     <button class="btn-pat-login" onclick="loginWithPAT()">🔑 Entrar</button>
     <p class="login-note">
       Apenas colaboradores de <strong>minecraftmodstudio/mmsblog</strong>.<br/>
+      <a href="https://github.com/settings/tokens/new?scopes=repo&description=mmsblog-admin" target="_blank">Gerar token com scope <code>repo</code> →</a>
     </p>
   </div>
 </div>
@@ -290,7 +291,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-
   <nav class="admin-nav">
     <div class="admin-nav-logo">
       <img src="https://raw.githubusercontent.com/minecraftmodstudio/mmsblog/main/mmslogosimbolodc.png" alt="MMS" />
-      <span>Minecraft Mod Studio</span>
+      <span>MMS Blog</span>
       <span class="admin-nav-badge">Admin</span>
     </div>
     <div class="admin-nav-right">
@@ -325,7 +326,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-
       </div>
       <div class="sidebar-divider"></div>
       <div class="sidebar-section">
-        <button class="sidebar-btn" onclick="window.open('https://minecraftmodstudio.github.io/mmswebsite/','_blank')"><span class="sb-icon">🌐</span> Ver Blog</button>
+        <button class="sidebar-btn" onclick="window.open('index.html','_blank')"><span class="sb-icon">🌐</span> Ver Blog</button>
         <button class="sidebar-btn" onclick="window.open('../index.html','_blank')"><span class="sb-icon">🏠</span> Site Principal</button>
       </div>
     </aside>
@@ -1032,8 +1033,11 @@ async function savePost(forceStatus) {
   btnP.textContent='⏳ Salvando…';
   document.getElementById('statusLabel').textContent='Salvando…';
   try {
-    // Safe base64 encoding that handles all Unicode (emojis, accents, CJK, etc.)
-    const encoded = btoa(String.fromCharCode(...new TextEncoder().encode(content)));
+    // Safe base64 encoding - handles all Unicode (accents, emojis, special chars)
+    const bytes = new TextEncoder().encode(content);
+    let binary = '';
+    for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
+    const encoded = btoa(binary);
     const apiUrl  = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${POSTS_PATH}/${slug}.md`;
     let sha;
     if(editingSlug) { const ep = allPosts.find(p=>p.slug===slug); if(ep) sha=ep.sha; }
